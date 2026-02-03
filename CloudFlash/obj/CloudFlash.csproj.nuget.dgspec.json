@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Clovis Pc\\Documents\\C#\\CloudFlash\\CloudFlash\\CloudFlash.csproj": {}
+    "C:\\Users\\Clovis Pc\\Documents\\informatique\\C#\\CloudFlash\\CloudFlash\\CloudFlash.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Clovis Pc\\Documents\\C#\\CloudFlash\\CloudFlash\\CloudFlash.csproj": {
+    "C:\\Users\\Clovis Pc\\Documents\\informatique\\C#\\CloudFlash\\CloudFlash\\CloudFlash.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Clovis Pc\\Documents\\C#\\CloudFlash\\CloudFlash\\CloudFlash.csproj",
+        "projectUniqueName": "C:\\Users\\Clovis Pc\\Documents\\informatique\\C#\\CloudFlash\\CloudFlash\\CloudFlash.csproj",
         "projectName": "CloudFlash",
-        "projectPath": "C:\\Users\\Clovis Pc\\Documents\\C#\\CloudFlash\\CloudFlash\\CloudFlash.csproj",
+        "projectPath": "C:\\Users\\Clovis Pc\\Documents\\informatique\\C#\\CloudFlash\\CloudFlash\\CloudFlash.csproj",
         "packagesPath": "C:\\Users\\Clovis Pc\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Clovis Pc\\Documents\\C#\\CloudFlash\\CloudFlash\\obj\\",
+        "outputPath": "C:\\Users\\Clovis Pc\\Documents\\informatique\\C#\\CloudFlash\\CloudFlash\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Clovis Pc\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -67,6 +67,10 @@
             "CommunityToolkit.Mvvm": {
               "target": "Package",
               "version": "[8.2.1, )"
+            },
+            "SSH.NET": {
+              "target": "Package",
+              "version": "[2025.1.0, )"
             }
           },
           "imports": [

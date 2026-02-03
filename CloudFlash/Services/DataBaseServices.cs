@@ -10,13 +10,13 @@ namespace SGS.Services
     public class DataBaseServices : IDisposable
     {
         // SSH Configuration
-        private const string SshHost = "YOUR_SERVER_IP"; 
+        private const string SshHost = "pat.infolab.ecam.be:62221"; 
         private const string SshUser = "student-admin";
-        private const string SshPass = "YOUR_SSH_PASSWORD"; // Or use a Private Key
+        private const string SshPass = "£r&49Tf2~3£@"; // Or use a Private Key
 
         // Database Configuration
         private const string DbUser = "clovis";
-        private const string DbPass = "£r&49Tf2~3£@;";
+        private const string DbPass = "SGS_db_password";
         private const string DbName = "SGS_db";
         private const int LocalPort = 3307; // We bridge the server's 3306 to our 3307
 

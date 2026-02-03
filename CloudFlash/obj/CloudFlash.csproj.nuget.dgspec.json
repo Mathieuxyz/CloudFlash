@@ -68,6 +68,10 @@
               "target": "Package",
               "version": "[8.2.1, )"
             },
+            "MySqlConnector": {
+              "target": "Package",
+              "version": "[2.5.0, )"
+            },
             "SSH.NET": {
               "target": "Package",
               "version": "[2025.1.0, )"

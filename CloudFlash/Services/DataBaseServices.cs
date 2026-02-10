@@ -24,9 +24,9 @@ namespace SGS.Services
         private ForwardedPortLocal? _forwardedPort;
         private MySqlConnection? _dbConnection;
 
-        /// <summary>
+        /// 
         /// Establishes the SSH Tunnel and opens the MariaDB connection if they aren't already active.
-        /// </summary>
+        /// 
         private async Task EnsureConnectedAsync()
         {
             // 1. Setup SSH Tunnel if not connected
@@ -49,9 +49,9 @@ namespace SGS.Services
             }
         }
 
-        /// <summary>
+        /// 
         /// Example Method: Get all data from a specific table
-        /// </summary>
+        /// 
         public async Task<List<string>> GetTableDataAsync(string tableName, string columnName)
         {
             var results = new List<string>();
@@ -78,9 +78,9 @@ namespace SGS.Services
             return results;
         }
 
-        /// <summary>
+        /// 
         /// Cleanup: Close the tunnel and database connection when the app closes
-        /// </summary>
+        /// 
         public void Dispose()
         {
             _dbConnection?.Dispose();

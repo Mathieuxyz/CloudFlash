@@ -7,14 +7,59 @@
         x:Class="CloudFlash.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
-        Title="CloudFlash">
+        Title="Project_Bac3"
+        TransparencyLevelHint="AcrylicBlur"
+        Background="Black">
 
-    <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
+    <!-- Définition des modèles pour dire à Avalonia comment dessiner chaque ViewModel -->
+    <Window.DataTemplates>
+        
+        <!-- TEMPLATE: ACCUEIL (Celui qui ressemble à ton screenshot) -->
+        <DataTemplate DataType="{x:Type vm:HomeViewModel}">
+            <Grid RowDefinitions="Auto, *">
+                <!-- Barre de recherche -->
+                <TextBlock>ezf</TextBlock>
+                
+            </Grid>
+        </DataTemplate>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        
+    </Window.DataTemplates>
 
+    <!-- LAYOUT PRINCIPAL -->
+    <Grid ColumnDefinitions="200, *">
+
+        <!-- COLONNE 0 : BARRE LATÉRALE (Sidebar) -->
+        <Border Grid.Column="0" Background="#2C3E50">
+            <StackPanel Spacing="15" Margin="20,40,20,0">
+                
+                <!-- Style des boutons de navigation -->
+                <StackPanel.Styles>
+                    <Style Selector="Button">
+                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        <Setter Property="Background" Value="#5D6D7E"/> <!-- Gris bleu clair -->
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="Padding" Value="10"/>
+                        <Setter Property="CornerRadius" Value="3"/>
+                        <Setter Property="FontSize" Value="14"/>
+                    </Style>
+                    <Style Selector="Button:pointerover /template/ ContentPresenter">
+                        <Setter Property="Background" Value="#7F8C8D"/>
+                    </Style>
+                </StackPanel.Styles>
+
+                <Button Content="Home" Command="{Binding GoHomeCommand}"/>
+
+            </StackPanel>
+        </Border>
+
+        <!-- COLONNE 1 : CONTENU DYNAMIQUE -->
+        <Border Grid.Column="1" Background="Black" Padding="20">
+            <!-- ContentControl affiche le ViewModel stocké dans CurrentPage -->
+            <!-- Avalonia utilise les DataTemplates définis plus haut pour savoir quoi afficher -->
+            <ContentControl Content="{Binding CurrentPage}" />
+        </Border>
+
+    </Grid>
 </Window>

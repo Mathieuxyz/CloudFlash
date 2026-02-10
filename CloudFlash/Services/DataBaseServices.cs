@@ -10,7 +10,8 @@ namespace SGS.Services
     public class DataBaseServices : IDisposable
     {
         // SSH Configuration
-        private const string SshHost = "pat.infolab.ecam.be:62221"; 
+        private const string SshHost = "pat.infolab.ecam.be"; 
+        private const int SshPort = 62221;
         private const string SshUser = "student-admin";
         private const string SshPass = "£r&49Tf2~3£@"; // Or use a Private Key
 
@@ -32,7 +33,7 @@ namespace SGS.Services
             // 1. Setup SSH Tunnel if not connected
             if (_sshClient == null || !_sshClient.IsConnected)
             {
-                _sshClient = new SshClient(SshHost, SshUser, SshPass);
+                _sshClient = new SshClient(SshHost, SshPort, SshUser, SshPass);
                 _sshClient.Connect();
 
                 _forwardedPort = new ForwardedPortLocal("127.0.0.1", LocalPort, "127.0.0.1", 3306);

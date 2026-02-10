@@ -76,6 +76,21 @@ namespace SGS.Services
             }
 
             return results;
+
+        }
+
+        public async Task ExecuteNonQueryAsync(string sqlCommand)
+        {
+            try 
+            {
+                await EnsureConnectedAsync();
+                using var cmd = new MySqlCommand(sqlCommand, _dbConnection);
+                await cmd.ExecuteNonQueryAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Database Execution Error: {ex.Message}");
+            }
         }
 
         /// 

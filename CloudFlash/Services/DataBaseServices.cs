@@ -24,9 +24,9 @@ namespace SGS.Services
         private ForwardedPortLocal? _forwardedPort;
         private MySqlConnection? _dbConnection;
 
-        /// <summary>
+        /// 
         /// Establishes the SSH Tunnel and opens the MariaDB connection if they aren't already active.
-        /// </summary>
+        /// 
         private async Task EnsureConnectedAsync()
         {
             // 1. Setup SSH Tunnel if not connected
@@ -49,9 +49,9 @@ namespace SGS.Services
             }
         }
 
-        /// <summary>
+        /// 
         /// Example Method: Get all data from a specific table
-        /// </summary>
+        /// 
         public async Task<List<string>> GetTableDataAsync(string tableName, string columnName)
         {
             var results = new List<string>();
@@ -76,11 +76,47 @@ namespace SGS.Services
             }
 
             return results;
+
         }
 
-        /// <summary>
+        public async Task ExecuteNonQueryAsync(string sqlCommand)
+        {
+            try 
+            {
+                await EnsureConnectedAsync();
+                using var cmd = new MySqlCommand(sqlCommand, _dbConnection);
+                await cmd.ExecuteNonQueryAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Database Execution Error: {ex.Message}");
+            }
+        }
+
+        public async Task<List<string>> GetAllTablesAsync()
+        {
+            var tables = new List<string>();
+            try
+            {
+                await EnsureConnectedAsync();
+                using var cmd = new MySqlCommand("SHOW TABLES;", _dbConnection);
+                using var reader = await cmd.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
+                {
+                    // Column 0 in "SHOW TABLES" is the table name
+                    tables.Add(reader.GetString(0));
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error fetching tables: {ex.Message}");
+            }
+            return tables;
+        }
+
+        /// 
         /// Cleanup: Close the tunnel and database connection when the app closes
-        /// </summary>
+        /// 
         public void Dispose()
         {
             _dbConnection?.Dispose();

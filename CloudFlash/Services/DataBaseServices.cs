@@ -93,6 +93,27 @@ namespace SGS.Services
             }
         }
 
+        public async Task<List<string>> GetAllTablesAsync()
+        {
+            var tables = new List<string>();
+            try
+            {
+                await EnsureConnectedAsync();
+                using var cmd = new MySqlCommand("SHOW TABLES;", _dbConnection);
+                using var reader = await cmd.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
+                {
+                    // Column 0 in "SHOW TABLES" is the table name
+                    tables.Add(reader.GetString(0));
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error fetching tables: {ex.Message}");
+            }
+            return tables;
+        }
+
         /// 
         /// Cleanup: Close the tunnel and database connection when the app closes
         /// 

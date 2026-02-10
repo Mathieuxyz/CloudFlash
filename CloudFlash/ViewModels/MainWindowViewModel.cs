@@ -2,6 +2,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input; // Required for RelayCommand
 using SGS.Services;
+using System.Collections.ObjectModel;
+using System; // Fixes 'Exception'
 
 namespace CloudFlash.ViewModels;
 
@@ -14,6 +16,9 @@ public partial class MainWindowViewModel : ViewModelBase
 
     [ObservableProperty]
     private string _connectionStatus = "Not checked";
+
+    [ObservableProperty]
+    private ObservableCollection<string> _tableList = new();
 
     [ObservableProperty]
     private bool _isBusy;
@@ -48,6 +53,30 @@ public partial class MainWindowViewModel : ViewModelBase
         catch (System.Exception ex)
         {
             ConnectionStatus = $"Failed: {ex.Message}";
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+
+    [RelayCommand]
+    public async Task RefreshTablesAsync()
+    {
+        IsBusy = true;
+        try
+        {
+            var tables = await _dbService.GetAllTablesAsync();
+            TableList.Clear();
+            foreach (var table in tables)
+            {
+                TableList.Add(table);
+            }
+            ConnectionStatus = $"Found {tables.Count} tables.";
+        }
+        catch (Exception ex)
+        {
+            ConnectionStatus = $"Error: {ex.Message}";
         }
         finally
         {

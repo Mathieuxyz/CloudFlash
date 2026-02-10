@@ -7,62 +7,59 @@
         x:Class="CloudFlash.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
-        Title="CloudFlash">
+        Title="Project_Bac3"
+        TransparencyLevelHint="AcrylicBlur"
+        Background="Black">
 
-    <Design.DataContext>
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
-
-    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="20">
+    <!-- Définition des modèles pour dire à Avalonia comment dessiner chaque ViewModel -->
+    <Window.DataTemplates>
         
-        <TextBlock Text="{Binding Greeting}" 
-                   FontSize="24" 
-                   HorizontalAlignment="Center"/>
+        <!-- TEMPLATE: ACCUEIL (Celui qui ressemble à ton screenshot) -->
+        <DataTemplate DataType="{x:Type vm:HomeViewModel}">
+            <Grid RowDefinitions="Auto, *">
+                <!-- Barre de recherche -->
+                <TextBlock>ezf</TextBlock>
+                
+            </Grid>
+        </DataTemplate>
 
-        <Border Padding="15" 
-                Background="#2b2b2b" 
-                CornerRadius="8" 
-                MinWidth="300">
-            <StackPanel Spacing="10">
-                <TextBlock Text="Database Status:" 
-                           Foreground="Gray" 
-                           FontSize="12"/>
-                <TextBlock Text="{Binding ConnectionStatus}" 
-                           FontWeight="Bold" 
-                           TextWrapping="Wrap"
-                           HorizontalAlignment="Center"/>
+        
+    </Window.DataTemplates>
+
+    <!-- LAYOUT PRINCIPAL -->
+    <Grid ColumnDefinitions="200, *">
+
+        <!-- COLONNE 0 : BARRE LATÉRALE (Sidebar) -->
+        <Border Grid.Column="0" Background="#2C3E50">
+            <StackPanel Spacing="15" Margin="20,40,20,0">
+                
+                <!-- Style des boutons de navigation -->
+                <StackPanel.Styles>
+                    <Style Selector="Button">
+                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        <Setter Property="Background" Value="#5D6D7E"/> <!-- Gris bleu clair -->
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="Padding" Value="10"/>
+                        <Setter Property="CornerRadius" Value="3"/>
+                        <Setter Property="FontSize" Value="14"/>
+                    </Style>
+                    <Style Selector="Button:pointerover /template/ ContentPresenter">
+                        <Setter Property="Background" Value="#7F8C8D"/>
+                    </Style>
+                </StackPanel.Styles>
+
+                <Button Content="Home" Command="{Binding GoHomeCommand}"/>
+
             </StackPanel>
         </Border>
 
-        <StackPanel Margin="20" Spacing="10">
-            <Button Content="Refresh Table List" 
-                    Command="{Binding RefreshTablesCommand}"
-                    HorizontalAlignment="Stretch"
-                    HorizontalContentAlignment="Center"/>
+        <!-- COLONNE 1 : CONTENU DYNAMIQUE -->
+        <Border Grid.Column="1" Background="Black" Padding="20">
+            <!-- ContentControl affiche le ViewModel stocké dans CurrentPage -->
+            <!-- Avalonia utilise les DataTemplates définis plus haut pour savoir quoi afficher -->
+            <ContentControl Content="{Binding CurrentPage}" />
+        </Border>
 
-            <TextBlock Text="Available Tables:" FontWeight="Bold" Margin="0,10,0,0"/>
-            
-            <ListBox ItemsSource="{Binding TableList}" Height="200">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal" Spacing="10">
-                            <PathIcon Data="{StaticResource DocumentData}" Width="16"/>
-                            <TextBlock Text="{Binding}" VerticalAlignment="Center"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </StackPanel>
-
-        <ProgressBar IsIndeterminate="True" 
-                     IsVisible="{Binding IsBusy}" 
-                     Height="4" />
-
-        <Button Content="Check DB Connection" 
-                Command="{Binding CheckConnectionCommand}" 
-                HorizontalAlignment="Center"
-                Padding="20,10"
-                Classes="accent" />
-        
-    </StackPanel>
+    </Grid>
 </Window>

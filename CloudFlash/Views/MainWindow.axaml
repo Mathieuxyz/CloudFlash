@@ -3,7 +3,8 @@
         xmlns:vm="using:CloudFlash.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d"
+        d:DesignWidth="800" d:DesignHeight="450"
         x:Class="CloudFlash.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
@@ -11,34 +12,18 @@
         TransparencyLevelHint="AcrylicBlur"
         Background="Black">
 
-    <!-- Définition des modèles pour dire à Avalonia comment dessiner chaque ViewModel -->
-    <Window.DataTemplates>
-        
-        <!-- TEMPLATE: ACCUEIL (Celui qui ressemble à ton screenshot) -->
-        <DataTemplate DataType="{x:Type vm:HomeViewModel}">
-            <Grid RowDefinitions="Auto, *">
-                <!-- Barre de recherche -->
-                <TextBlock>ezf</TextBlock>
-                
-            </Grid>
-        </DataTemplate>
-
-        
-    </Window.DataTemplates>
-
     <!-- LAYOUT PRINCIPAL -->
-    <Grid ColumnDefinitions="200, *">
+    <Grid ColumnDefinitions="200,*">
 
         <!-- COLONNE 0 : BARRE LATÉRALE (Sidebar) -->
         <Border Grid.Column="0" Background="#2C3E50">
             <StackPanel Spacing="15" Margin="20,40,20,0">
-                
-                <!-- Style des boutons de navigation -->
+
                 <StackPanel.Styles>
                     <Style Selector="Button">
                         <Setter Property="HorizontalAlignment" Value="Stretch"/>
                         <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                        <Setter Property="Background" Value="#5D6D7E"/> <!-- Gris bleu clair -->
+                        <Setter Property="Background" Value="#5D6D7E"/>
                         <Setter Property="Foreground" Value="White"/>
                         <Setter Property="Padding" Value="10"/>
                         <Setter Property="CornerRadius" Value="3"/>
@@ -50,16 +35,59 @@
                 </StackPanel.Styles>
 
                 <Button Content="Home" Command="{Binding GoHomeCommand}"/>
-
+                <Button Content="Composition of the order"/>
             </StackPanel>
         </Border>
 
         <!-- COLONNE 1 : CONTENU DYNAMIQUE -->
-        <Border Grid.Column="1" Background="Black" Padding="20">
-            <!-- ContentControl affiche le ViewModel stocké dans CurrentPage -->
-            <!-- Avalonia utilise les DataTemplates définis plus haut pour savoir quoi afficher -->
-            <ContentControl Content="{Binding CurrentPage}" />
-        </Border>
+        <ScrollViewer Grid.Column="1" Padding="20">
+            <StackPanel Spacing="15">
+
+                <!-- TITRE -->
+                <TextBlock Text="Composition of the order"
+                           FontSize="24"
+                           FontWeight="Bold"
+                           Foreground="White"
+                           Margin="0,0,0,20"/>
+
+                <!-- INSTRUCTIONS -->
+                <TextBlock TextWrapping="Wrap" Foreground="White">
+                    Currently, to buy a cabinet, the customer has to go to the store. Based on the paper catalogue, the customer manually completes an order form and gives it to the seller. Each cabinet is made up of several lockers. The height of the locker can vary (see the possibilities in the catalogue). A maximum of 7 lockers can be assembled. The lockers are held together by 4 angle irons, which come in standard lengths, but can be cut to fit lockers of different heights.
+                </TextBlock>
+
+                <!-- Nombre de lockers -->
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <TextBlock Text="Number of lockers:" Foreground="White" VerticalAlignment="Center"/>
+                    <ComboBox Width="60">
+                        <ComboBoxItem Content="1"/>
+                        <ComboBoxItem Content="2"/>
+                        <ComboBoxItem Content="3"/>
+                        <ComboBoxItem Content="4"/>
+                        <ComboBoxItem Content="5"/>
+                        <ComboBoxItem Content="6"/>
+                        <ComboBoxItem Content="7"/>
+                    </ComboBox>
+                </StackPanel>
+
+                <!-- Exemple de saisie des hauteurs -->
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <TextBlock Text="Locker 1 height (cm):" Foreground="White" VerticalAlignment="Center"/>
+                    <TextBox Width="100" Text="100"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <TextBlock Text="Locker 2 height (cm):" Foreground="White" VerticalAlignment="Center"/>
+                    <TextBox Width="100" Text="100"/>
+                </StackPanel>
+
+                <!-- Bouton placeholder -->
+                <Button Content="Calculate total angle iron height"
+                        HorizontalAlignment="Left"
+                        Width="250"
+                        Margin="0,20,0,0"/>
+
+            </StackPanel>
+        </ScrollViewer>
 
     </Grid>
 </Window>

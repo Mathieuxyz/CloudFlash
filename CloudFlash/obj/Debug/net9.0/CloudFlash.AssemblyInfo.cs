@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CloudFlash")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+80ed5c5dc39e1c26bf138010189bc1c358846d4d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+04cadb3b8f7b98cc2c52a3d27a7259cf76abe866")]
 [assembly: System.Reflection.AssemblyProductAttribute("CloudFlash")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CloudFlash")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

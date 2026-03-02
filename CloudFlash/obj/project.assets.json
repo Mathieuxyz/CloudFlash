@@ -1725,19 +1725,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Clovis Pc\\.nuget\\packages\\": {}
+    "C:\\Users\\mastr\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Clovis Pc\\Documents\\informatique\\C#\\CloudFlash\\CloudFlash\\CloudFlash.csproj",
+      "projectUniqueName": "C:\\Users\\mastr\\Desktop\\CloudFlash\\CloudFlash\\CloudFlash.csproj",
       "projectName": "CloudFlash",
-      "projectPath": "C:\\Users\\Clovis Pc\\Documents\\informatique\\C#\\CloudFlash\\CloudFlash\\CloudFlash.csproj",
-      "packagesPath": "C:\\Users\\Clovis Pc\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Clovis Pc\\Documents\\informatique\\C#\\CloudFlash\\CloudFlash\\obj\\",
+      "projectPath": "C:\\Users\\mastr\\Desktop\\CloudFlash\\CloudFlash\\CloudFlash.csproj",
+      "packagesPath": "C:\\Users\\mastr\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\mastr\\Desktop\\CloudFlash\\CloudFlash\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Clovis Pc\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\mastr\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net9.0"

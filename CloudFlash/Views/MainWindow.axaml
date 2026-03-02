@@ -3,18 +3,91 @@
         xmlns:vm="using:CloudFlash.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d"
+        d:DesignWidth="800" d:DesignHeight="450"
         x:Class="CloudFlash.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
-        Title="CloudFlash">
+        Title="Project_Bac3"
+        TransparencyLevelHint="AcrylicBlur"
+        Background="Black">
 
-    <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
+    <!-- LAYOUT PRINCIPAL -->
+    <Grid ColumnDefinitions="200,*">
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <!-- COLONNE 0 : BARRE LATÉRALE (Sidebar) -->
+        <Border Grid.Column="0" Background="#2C3E50">
+            <StackPanel Spacing="15" Margin="20,40,20,0">
 
+                <StackPanel.Styles>
+                    <Style Selector="Button">
+                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        <Setter Property="Background" Value="#5D6D7E"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="Padding" Value="10"/>
+                        <Setter Property="CornerRadius" Value="3"/>
+                        <Setter Property="FontSize" Value="14"/>
+                    </Style>
+                    <Style Selector="Button:pointerover /template/ ContentPresenter">
+                        <Setter Property="Background" Value="#7F8C8D"/>
+                    </Style>
+                </StackPanel.Styles>
+
+                <Button Content="Home" Command="{Binding GoHomeCommand}"/>
+                <Button Content="Composition of the order"/>
+            </StackPanel>
+        </Border>
+
+        <!-- COLONNE 1 : CONTENU DYNAMIQUE -->
+        <ScrollViewer Grid.Column="1" Padding="20">
+            <StackPanel Spacing="15">
+
+                <!-- TITRE -->
+                <TextBlock Text="Composition of the order"
+                           FontSize="24"
+                           FontWeight="Bold"
+                           Foreground="White"
+                           Margin="0,0,0,20"/>
+
+                <!-- INSTRUCTIONS -->
+                <TextBlock TextWrapping="Wrap" Foreground="White">
+                    Currently, to buy a cabinet, the customer has to go to the store. Based on the paper catalogue, the customer manually completes an order form and gives it to the seller. Each cabinet is made up of several lockers. The height of the locker can vary (see the possibilities in the catalogue). A maximum of 7 lockers can be assembled. The lockers are held together by 4 angle irons, which come in standard lengths, but can be cut to fit lockers of different heights.
+                </TextBlock>
+
+                <!-- Nombre de lockers -->
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <TextBlock Text="Number of lockers:" Foreground="White" VerticalAlignment="Center"/>
+                    <ComboBox Width="60">
+                        <ComboBoxItem Content="1"/>
+                        <ComboBoxItem Content="2"/>
+                        <ComboBoxItem Content="3"/>
+                        <ComboBoxItem Content="4"/>
+                        <ComboBoxItem Content="5"/>
+                        <ComboBoxItem Content="6"/>
+                        <ComboBoxItem Content="7"/>
+                    </ComboBox>
+                </StackPanel>
+
+                <!-- Exemple de saisie des hauteurs -->
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <TextBlock Text="Locker 1 height (cm):" Foreground="White" VerticalAlignment="Center"/>
+                    <TextBox Width="100" Text="100"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <TextBlock Text="Locker 2 height (cm):" Foreground="White" VerticalAlignment="Center"/>
+                    <TextBox Width="100" Text="100"/>
+                </StackPanel>
+
+                <!-- Bouton placeholder -->
+                <Button Content="Calculate total angle iron height"
+                        HorizontalAlignment="Left"
+                        Width="250"
+                        Margin="0,20,0,0"/>
+
+            </StackPanel>
+        </ScrollViewer>
+
+    </Grid>
 </Window>

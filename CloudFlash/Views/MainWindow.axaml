@@ -68,36 +68,44 @@
                 </TextBlock>
 
                 <!-- Nombre de lockers -->
-                <StackPanel Orientation="Horizontal" Spacing="10">
-                    <TextBlock Text="Number of lockers:" Foreground="White" VerticalAlignment="Center"/>
-                    <ComboBox Width="60">
-                        <ComboBoxItem Content="1"/>
-                        <ComboBoxItem Content="2"/>
-                        <ComboBoxItem Content="3"/>
-                        <ComboBoxItem Content="4"/>
-                        <ComboBoxItem Content="5"/>
-                        <ComboBoxItem Content="6"/>
-                        <ComboBoxItem Content="7"/>
-                    </ComboBox>
-                </StackPanel>
+                <Grid ColumnDefinitions="*, Auto" Margin="0,10">
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+                        <TextBlock Text="Number of lockers:" Foreground="White" VerticalAlignment="Center"/>
+                        <ComboBox Width="60">
+                            <ComboBoxItem Content="1"/>
+                            <ComboBoxItem Content="2"/>
+                            <ComboBoxItem Content="3" IsSelected="True"/>
+                            <ComboBoxItem Content="4"/>
+                            <ComboBoxItem Content="5"/>
+                            <ComboBoxItem Content="6"/>
+                            <ComboBoxItem Content="7"/>
+                        </ComboBox>
+                    </StackPanel>
 
-                <!-- Exemple de saisie des hauteurs -->
-                <StackPanel Orientation="Horizontal" Spacing="10">
-                    <TextBlock Text="Locker 1 height (cm):" Foreground="White" VerticalAlignment="Center"/>
-                    <TextBox Width="100" Text="100"/>
-                </StackPanel>
+                    <Image Grid.Column="1" 
+                        Source="C:\Users\32497\Desktop\cloudflash\CloudFlash\CloudFlash\Assets\Capture d’écran 2026-03-09 092348.png"
+                        Width="200" 
+                        Height="200"
+                        Margin="20,0,0,0"/>
+                
 
-                <StackPanel Orientation="Horizontal" Spacing="10">
-                    <TextBlock Text="Locker 2 height (cm):" Foreground="White" VerticalAlignment="Center"/>
-                    <TextBox Width="100" Text="100"/>
-                </StackPanel>
+                    <StackPanel Spacing="15">
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <TextBlock Text="Locker 1 height (cm):" Foreground="White" VerticalAlignment="Center"/>
+                            <TextBox Width="100" Text="100"/>
+                        </StackPanel>
 
-                <!-- Bouton placeholder -->
-                <Button Content="Calculate total angle iron height"
-                        HorizontalAlignment="Left"
-                        Width="250"
-                        Margin="0,20,0,0"/>
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <TextBlock Text="Locker 2 height (cm):" Foreground="White" VerticalAlignment="Center"/>
+                            <TextBox Width="100" Text="100"/>
+                        </StackPanel>
 
+                        <Button Content="Calculate total angle iron height"
+                                HorizontalAlignment="Left"
+                                Width="250"
+                                Margin="0,20,0,0"/>
+                    </StackPanel>
+                </Grid>
             </StackPanel>
         </ScrollViewer>
 

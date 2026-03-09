@@ -29,13 +29,21 @@
                         <Setter Property="CornerRadius" Value="3"/>
                         <Setter Property="FontSize" Value="14"/>
                     </Style>
+                    <Style Selector="TextBlock">
+                        <Setter Property="TextWrapping" Value="Wrap"/>
+                        <Setter Property="TextAlignment" Value="Center"/>
+                    </Style>
                     <Style Selector="Button:pointerover /template/ ContentPresenter">
                         <Setter Property="Background" Value="#7F8C8D"/>
                     </Style>
                 </StackPanel.Styles>
 
                 <Button Content="Home" Command="{Binding GoHomeCommand}"/>
-                <Button Content="Composition of the order"/>
+                <!--<Button Content="Cart"/>-->
+                <!-- <Button Content="Ceci est une phrase très longue qui va automatiquement passer à la ligne"/> -->
+                <Button>
+                    <TextBlock Text="Cart" />
+                </Button>
             </StackPanel>
         </Border>
 
@@ -52,7 +60,11 @@
 
                 <!-- INSTRUCTIONS -->
                 <TextBlock TextWrapping="Wrap" Foreground="White">
-                    Currently, to buy a cabinet, the customer has to go to the store. Based on the paper catalogue, the customer manually completes an order form and gives it to the seller. Each cabinet is made up of several lockers. The height of the locker can vary (see the possibilities in the catalogue). A maximum of 7 lockers can be assembled. The lockers are held together by 4 angle irons, which come in standard lengths, but can be cut to fit lockers of different heights.
+                    Currently, to buy a cabinet, the customer has to go to the store.
+                     Based on the paper catalogue, the customer manually completes an order form and gives it to the seller. Each cabinet is made up of several lockers. 
+                     The height of the locker can vary (see the possibilities in the catalogue).
+                      A maximum of 7 lockers can be assembled. The lockers are held together by 4 angle irons, 
+                      which come in standard lengths, but can be cut to fit lockers of different heights.
                 </TextBlock>
 
                 <!-- Nombre de lockers -->

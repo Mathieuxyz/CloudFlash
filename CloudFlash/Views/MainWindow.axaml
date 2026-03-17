@@ -48,9 +48,21 @@
             <ContentControl.DataTemplates>
                 <!-- Vue pour l'accueil (par défaut) -->
                 <DataTemplate DataType="{x:Type vm:HomeViewModel}">
-                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <TextBlock Text="Welcome Home" FontSize="30" Foreground="White"/>
-                    </StackPanel>
+                    <Panel>
+                        <!-- Image de fond -->
+                        <Image Source="/Assets/Capture d’écran 2026-03-09 092348.png" 
+                               Stretch="UniformToFill" 
+                               Opacity="0.5"/>
+                        
+                        <!-- Contenu par-dessus -->
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <TextBlock Text="Welcome Home" 
+                                       FontSize="40" 
+                                       FontWeight="Bold"
+                                       Foreground="White"
+                                       Effect="drop-shadow(0 0 10 black)"/>
+                        </StackPanel>
+                    </Panel>
                 </DataTemplate>
 
                 <!-- Vue pour la composition de commande -->

@@ -1,0 +1,95 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:CloudFlash.ViewModels"
+             x:Class="CloudFlash.Views.OrderStep1View" 
+             x:DataType="vm:OrderStep1ViewModel">
+    <Grid RowDefinitions="Auto,*,Auto" Margin="25">
+        <Border Grid.Row="0" Background="#2C3E50" CornerRadius="5" Padding="20" Margin="0,0,0,20">
+            <StackPanel>
+                <TextBlock Text="CABINET CONFIGURATION" FontSize="18" FontWeight="Bold" Foreground="White" Margin="0,0,0,15"/>
+                <WrapPanel>
+                    <StackPanel Margin="0,0,30,10">
+                        <TextBlock Text="Width (cm):" Foreground="Gray"/>
+                        <ComboBox SelectedItem="{Binding CabinetWidth}" Width="120">
+                            <x:Decimal>32</x:Decimal><x:Decimal>42</x:Decimal><x:Decimal>52</x:Decimal><x:Decimal>62</x:Decimal><x:Decimal>80</x:Decimal><x:Decimal>100</x:Decimal><x:Decimal>120</x:Decimal>
+                        </ComboBox>
+                    </StackPanel>
+                    <StackPanel Margin="0,0,30,10">
+                        <TextBlock Text="Depth (cm):" Foreground="Gray"/>
+                        <ComboBox SelectedItem="{Binding CabinetDepth}" Width="120">
+                            <x:Decimal>32</x:Decimal><x:Decimal>42</x:Decimal><x:Decimal>52</x:Decimal><x:Decimal>62</x:Decimal>
+                        </ComboBox>
+                    </StackPanel>
+                    <StackPanel Margin="0,0,30,10">
+                        <TextBlock Text="Angle iron color:" Foreground="Gray"/>
+                        <ComboBox SelectedItem="{Binding AngleIronColor}" Width="120">
+                            <x:String>White</x:String><x:String>Black</x:String><x:String>Brown</x:String><x:String>Galvanized</x:String>
+                        </ComboBox>
+                    </StackPanel>
+                </WrapPanel>
+            </StackPanel>
+        </Border>
+
+        <ScrollViewer Grid.Row="1">
+            <StackPanel>
+                <TextBlock Text="LOCKERS (1 to 7)" FontSize="18" FontWeight="Bold" Foreground="White" Margin="0,0,0,10"/>
+                <ItemsControl ItemsSource="{Binding Lockers}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="vm:LockerItemViewModel">
+                            <Border BorderBrush="#34495E" BorderThickness="2" CornerRadius="5" Padding="15" Margin="0,0,0,15" Background="#1A252F">
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <StackPanel Grid.Column="0">
+                                        <TextBlock Text="{Binding Position, StringFormat='Locker {0}'}" FontSize="16" FontWeight="Bold" Foreground="#AED6F1" Margin="0,0,0,10"/>
+                                        <WrapPanel Margin="0,0,0,15">
+                                            <StackPanel Margin="0,0,20,10">
+                                                <TextBlock Text="Height:" Foreground="Gray" FontSize="12"/>
+                                                <ComboBox SelectedItem="{Binding Height}" Width="100">
+                                                    <x:Decimal>32</x:Decimal><x:Decimal>42</x:Decimal><x:Decimal>52</x:Decimal><x:Decimal>62</x:Decimal>
+                                                </ComboBox>
+                                            </StackPanel>
+                                            <StackPanel Margin="0,0,20,10">
+                                                <TextBlock Text="Color:" Foreground="Gray" FontSize="12"/>
+                                                <ComboBox SelectedItem="{Binding Color}" Width="100">
+                                                    <x:String>White</x:String><x:String>Brown</x:String>
+                                                </ComboBox>
+                                            </StackPanel>
+                                            <StackPanel Margin="0,0,20,10" VerticalAlignment="Bottom">
+                                                <CheckBox Content="Doors" IsChecked="{Binding HasDoors}" Foreground="White"/>
+                                            </StackPanel>
+                                            <StackPanel Margin="0,0,20,10" IsVisible="{Binding HasDoors}">
+                                                <TextBlock Text="Door color:" Foreground="Gray" FontSize="12"/>
+                                                <ComboBox SelectedItem="{Binding DoorColor}" Width="100">
+                                                    <x:String>White</x:String><x:String>Brown</x:String><x:String>Glass</x:String>
+                                                </ComboBox>
+                                            </StackPanel>
+                                        </WrapPanel>
+                                        <TextBlock Text="Parts auto-calculated:" Foreground="Gray" FontSize="12"/>
+                                        <ItemsControl ItemsSource="{Binding CalculatedParts}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate><TextBlock Text="{Binding StringFormat='✔ {0}'}" Foreground="#2ECC71" FontSize="13" Margin="10,2,0,0"/></DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </StackPanel>
+                                    <Button Grid.Column="1" Content="❌" Command="{Binding $parent[ItemsControl].((vm:OrderStep1ViewModel)DataContext).RemoveLockerCommand}" CommandParameter="{Binding}" Background="#E74C3C" Foreground="White" VerticalAlignment="Top"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <Button Content="+ Add Locker" Command="{Binding AddLockerCommand}" Background="#34495E" Foreground="White" Padding="15,10" HorizontalAlignment="Left" Margin="0,10,0,0"/>
+            </StackPanel>
+        </ScrollViewer>
+
+        <Border Grid.Row="2" Background="#2C3E50" CornerRadius="5" Padding="20" Margin="0,20,0,0">
+            <Grid ColumnDefinitions="*,Auto,Auto">
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="{Binding StatusMessage}" Foreground="#F1C40F" Margin="0,0,0,5"/>
+                    <TextBlock Text="{Binding AngleIronCutHeight, StringFormat='Angle iron cut height: {0}cm'}" Foreground="White"/>
+                    <TextBlock Text="{Binding AngleIronPartCode, StringFormat='Angle iron part: {0}'}" Foreground="White" FontWeight="Bold"/>
+                </StackPanel>
+                <Button Grid.Column="1" Content="🔄 Calculate Parts" Command="{Binding CalculatePartsCommand}" Background="#27AE60" Foreground="White" Padding="20,15" FontWeight="Bold" Margin="0,0,15,0"/>
+                <Button Grid.Column="2" Content="→ Go to Cart" Command="{Binding GoToCartCommand}" Background="#2980B9" Foreground="White" Padding="20,15" FontWeight="Bold"/>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

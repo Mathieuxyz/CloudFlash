@@ -24,5 +24,20 @@ build_property.EnableCodeStyleSeverity =
 [C:/Users/32497/Desktop/cloudflash/CloudFlash/CloudFlash/App.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
+[C:/Users/32497/Desktop/cloudflash/CloudFlash/CloudFlash/Views/HomeView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
 [C:/Users/32497/Desktop/cloudflash/CloudFlash/CloudFlash/Views/MainWindow.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[C:/Users/32497/Desktop/cloudflash/CloudFlash/CloudFlash/Views/OrderStep1View.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[C:/Users/32497/Desktop/cloudflash/CloudFlash/CloudFlash/Views/OrderStep2View.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[C:/Users/32497/Desktop/cloudflash/CloudFlash/CloudFlash/Views/OrderStep3View.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[C:/Users/32497/Desktop/cloudflash/CloudFlash/CloudFlash/Views/SupplierView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml

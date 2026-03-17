@@ -1,29 +1,32 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using System.Collections.ObjectModel;
+using CloudFlash.Models;
+using SGS.Services;
 
 namespace CloudFlash.ViewModels;
 
-// 1. Définition des sous-pages (Vues)
-// pour rajouter une sous page il faut le faire ici
-public class HomeViewModel : ViewModelBase { public string Title => "Accueil"; }
-public class CompositionViewModel : ViewModelBase { public string Title => "Composition"; }
-
 public partial class MainWindowViewModel : ViewModelBase
 {
-    // 2. Cette propriété contient la vue actuellement affichée à droite
-    [ObservableProperty]
-    private ViewModelBase _currentPage;
+    public readonly DataBaseServices Db;
+
+    [ObservableProperty] private ViewModelBase _currentPage;
+    
+    public ObservableCollection<CartItem> GlobalCart { get; set; } = new();
+    public decimal TotalCabinetPrice { get; set; }
+    public decimal RequiredDeposit { get; set; }
+    public OrderStep1ViewModel? DraftCabinet { get; set; }
 
     public MainWindowViewModel()
     {
-        // On définit la page par défaut au démarrage
-        CurrentPage = new HomeViewModel();
+        Db = new DataBaseServices();
+        CurrentPage = new HomeViewModel(); 
     }
 
-    // 3. Commandes pour changer de page
-    [RelayCommand]
-    public void GoHome() => CurrentPage = new HomeViewModel();
-
-    [RelayCommand]
-    public void GoComposition() => CurrentPage = new CompositionViewModel();
+    [RelayCommand] public void GoHome() => CurrentPage = new HomeViewModel();
+    [RelayCommand] public void GoToStep1() => CurrentPage = new OrderStep1ViewModel(this);
+    [RelayCommand] public void GoToStep2() => CurrentPage = new OrderStep2ViewModel(this);
+    [RelayCommand] public void GoToStep3() => CurrentPage = new OrderStep3ViewModel(this);
+    public void NavigateToOrder(int orderId) => CurrentPage = new OrderStep3ViewModel(this, orderId);
+    [RelayCommand] public void GoToSupplier() => CurrentPage = new SupplierViewModel(this);
 }

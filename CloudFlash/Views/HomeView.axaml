@@ -1,0 +1,10 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:CloudFlash.ViewModels"
+             x:Class="CloudFlash.Views.HomeView" 
+             x:DataType="vm:HomeViewModel">
+    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+        <TextBlock Text="🏠 Bienvenue dans Kitbox" FontSize="28" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
+        <TextBlock Text="Utilisez la barre latérale pour naviguer." Foreground="Gray" Margin="0,10,0,0" HorizontalAlignment="Center"/>
+    </StackPanel>
+</UserControl>

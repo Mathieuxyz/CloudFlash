@@ -39,75 +39,71 @@
                 </StackPanel.Styles>
 
                 <Button Content="Home" Command="{Binding GoHomeCommand}"/>
-                <!--<Button Content="Cart"/>-->
-                <!-- <Button Content="Ceci est une phrase très longue qui va automatiquement passer à la ligne"/> -->
-                <Button>
-                    <TextBlock Text="Cart" />
-                </Button>
+                <Button Content="Composition of the order" Command="{Binding GoCompositionCommand}"/>
             </StackPanel>
         </Border>
 
         <!-- COLONNE 1 : CONTENU DYNAMIQUE -->
-        <ScrollViewer Grid.Column="1" Padding="20">
-            <StackPanel Spacing="15">
-
-                <!-- TITRE -->
-                <TextBlock Text="Composition of the order"
-                           FontSize="24"
-                           FontWeight="Bold"
-                           Foreground="White"
-                           Margin="0,0,0,20"/>
-
-                <!-- INSTRUCTIONS -->
-                <TextBlock TextWrapping="Wrap" Foreground="White">
-                    Currently, to buy a cabinet, the customer has to go to the store.
-                     Based on the paper catalogue, the customer manually completes an order form and gives it to the seller. Each cabinet is made up of several lockers. 
-                     The height of the locker can vary (see the possibilities in the catalogue).
-                      A maximum of 7 lockers can be assembled. The lockers are held together by 4 angle irons, 
-                      which come in standard lengths, but can be cut to fit lockers of different heights.
-                </TextBlock>
-
-                <!-- Nombre de lockers -->
-                <Grid ColumnDefinitions="*, Auto" Margin="0,10">
-                    <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
-                        <TextBlock Text="Number of lockers:" Foreground="White" VerticalAlignment="Center"/>
-                        <ComboBox Width="60">
-                            <ComboBoxItem Content="1"/>
-                            <ComboBoxItem Content="2"/>
-                            <ComboBoxItem Content="3" IsSelected="True"/>
-                            <ComboBoxItem Content="4"/>
-                            <ComboBoxItem Content="5"/>
-                            <ComboBoxItem Content="6"/>
-                            <ComboBoxItem Content="7"/>
-                        </ComboBox>
+        <ContentControl Grid.Column="1" Content="{Binding CurrentPage}">
+            <ContentControl.DataTemplates>
+                <!-- Vue pour l'accueil (par défaut) -->
+                <DataTemplate DataType="{x:Type vm:HomeViewModel}">
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <TextBlock Text="Welcome Home" FontSize="30" Foreground="White"/>
                     </StackPanel>
+                </DataTemplate>
 
-                    <Image Grid.Column="1" 
-                        Source="C:\Users\32497\Desktop\cloudflash\CloudFlash\CloudFlash\Assets\Capture d’écran 2026-03-09 092348.png"
-                        Width="200" 
-                        Height="200"
-                        Margin="20,0,0,0"/>
-                
+                <!-- Vue pour la composition de commande -->
+                <DataTemplate DataType="{x:Type vm:CompositionViewModel}">
+                    <ScrollViewer Padding="20">
+                        <StackPanel Spacing="15">
+                            <!-- TITRE -->
+                            <TextBlock Text="Composition of the order"
+                                       FontSize="24"
+                                       FontWeight="Bold"
+                                       Foreground="White"
+                                       Margin="0,0,0,20"/>
 
-                    <StackPanel Spacing="15">
-                        <StackPanel Orientation="Horizontal" Spacing="10">
-                            <TextBlock Text="Locker 1 height (cm):" Foreground="White" VerticalAlignment="Center"/>
-                            <TextBox Width="100" Text="100"/>
+                            <!-- INSTRUCTIONS -->
+                            <TextBlock TextWrapping="Wrap" Foreground="White">
+                                Currently, to buy a cabinet, the customer has to go to the store. Based on the paper catalogue, the customer manually completes an order form and gives it to the seller. Each cabinet is made up of several lockers. The height of the locker can vary (see the possibilities in the catalogue). A maximum of 7 lockers can be assembled. The lockers are held together by 4 angle irons, which come in standard lengths, but can be cut to fit lockers of different heights.
+                            </TextBlock>
+
+                            <!-- Nombre de lockers -->
+                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                <TextBlock Text="Number of lockers:" Foreground="White" VerticalAlignment="Center"/>
+                                <ComboBox Width="60">
+                                    <ComboBoxItem Content="1"/>
+                                    <ComboBoxItem Content="2"/>
+                                    <ComboBoxItem Content="3"/>
+                                    <ComboBoxItem Content="4"/>
+                                    <ComboBoxItem Content="5"/>
+                                    <ComboBoxItem Content="6"/>
+                                    <ComboBoxItem Content="7"/>
+                                </ComboBox>
+                            </StackPanel>
+
+                            <!-- Exemple de saisie des hauteurs -->
+                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                <TextBlock Text="Locker 1 height (cm):" Foreground="White" VerticalAlignment="Center"/>
+                                <TextBox Width="100" Text="100"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                <TextBlock Text="Locker 2 height (cm):" Foreground="White" VerticalAlignment="Center"/>
+                                <TextBox Width="100" Text="100"/>
+                            </StackPanel>
+
+                            <!-- Bouton placeholder -->
+                            <Button Content="Calculate total angle iron height"
+                                    HorizontalAlignment="Left"
+                                    Width="250"
+                                    Margin="0,20,0,0"/>
                         </StackPanel>
-
-                        <StackPanel Orientation="Horizontal" Spacing="10">
-                            <TextBlock Text="Locker 2 height (cm):" Foreground="White" VerticalAlignment="Center"/>
-                            <TextBox Width="100" Text="100"/>
-                        </StackPanel>
-
-                        <Button Content="Calculate total angle iron height"
-                                HorizontalAlignment="Left"
-                                Width="250"
-                                Margin="0,20,0,0"/>
-                    </StackPanel>
-                </Grid>
-            </StackPanel>
-        </ScrollViewer>
+                    </ScrollViewer>
+                </DataTemplate>
+            </ContentControl.DataTemplates>
+        </ContentControl>
 
     </Grid>
 </Window>

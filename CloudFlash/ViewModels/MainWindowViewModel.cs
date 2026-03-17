@@ -6,6 +6,7 @@ namespace CloudFlash.ViewModels;
 // 1. Définition des sous-pages (Vues)
 // pour rajouter une sous page il faut le faire ici
 public class HomeViewModel : ViewModelBase { public string Title => "Accueil"; }
+public class CompositionViewModel : ViewModelBase { public string Title => "Composition"; }
 
 public partial class MainWindowViewModel : ViewModelBase
 {
@@ -22,4 +23,7 @@ public partial class MainWindowViewModel : ViewModelBase
     // 3. Commandes pour changer de page
     [RelayCommand]
     public void GoHome() => CurrentPage = new HomeViewModel();
+
+    [RelayCommand]
+    public void GoComposition() => CurrentPage = new CompositionViewModel();
 }

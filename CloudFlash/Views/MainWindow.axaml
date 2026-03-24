@@ -7,7 +7,7 @@
         Title="Kitbox App - Modular"
         Background="#1E1E1E">
 
-    <Window.DataTemplates>
+    <Window.DataTemplates> 
         <DataTemplate DataType="vm:HomeViewModel"><views:HomeView/></DataTemplate>
         <DataTemplate DataType="vm:OrderStep1ViewModel"><views:OrderStep1View/></DataTemplate>
         <DataTemplate DataType="vm:OrderStep2ViewModel"><views:OrderStep2View/></DataTemplate>

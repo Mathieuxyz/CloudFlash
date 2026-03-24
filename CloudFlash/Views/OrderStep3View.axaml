@@ -67,7 +67,7 @@
         <!-- Footer Navigation -->
         <Border Grid.Row="2" Background="#2C3E50" CornerRadius="8" Padding="15" Margin="0,20,0,0">
             <Grid ColumnDefinitions="*, Auto">
-                <TextBlock Grid.Column="0" Text="CloudFlash Order Tracking System v1.0" Foreground="Gray" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="0" Text="Order Tracking" Foreground="Gray" VerticalAlignment="Center"/>
                 <Button Grid.Column="1" Content="Retour à l'accueil" Command="{Binding GoHomeCommand}" 
                         Background="Transparent" BorderBrush="#3498DB" BorderThickness="1" Foreground="#3498DB" Padding="15,10"/>
             </Grid>

@@ -28,4 +28,6 @@ public partial class MainWindowViewModel : ViewModelBase
     [RelayCommand] public void GoToCustomer() => CurrentPage = new CustomersViewModel(this);
     [RelayCommand] public void GoHome() => CurrentPage = new HomeViewModel();
     [RelayCommand] public void GoToStep1() => CurrentPage = new OrderStep1ViewModel(this);[RelayCommand] public void GoToStep2() => CurrentPage = new OrderStep2ViewModel(this);[RelayCommand] public void GoToSupplier() => CurrentPage = new SupplierViewModel(this);
+    [RelayCommand] public void GoToStep3() => CurrentPage = new OrderStep3ViewModel(this);
+    public void NavigateToOrder(int orderId) => CurrentPage = new OrderStep3ViewModel(this, orderId);
 }

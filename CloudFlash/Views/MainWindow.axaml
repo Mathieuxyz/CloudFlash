@@ -12,6 +12,7 @@
         <DataTemplate DataType="vm:CustomersViewModel"><views:CustomerView/></DataTemplate>
         <DataTemplate DataType="vm:OrderStep1ViewModel"><views:OrderStep1View/></DataTemplate>
         <DataTemplate DataType="vm:OrderStep2ViewModel"><views:OrderStep2View/></DataTemplate>
+        <DataTemplate DataType="vm:OrderStep3ViewModel"><views:OrderStep3View/></DataTemplate>
         <DataTemplate DataType="vm:SupplierViewModel"><views:SupplierView/></DataTemplate>
     </Window.DataTemplates>
 
@@ -40,6 +41,7 @@
                 <TextBlock Text="NEW ORDER" Foreground="#7F8C8D" FontSize="11" FontWeight="Bold" Margin="15,20,0,5"/>
                 <Button Content="  Step 1: Build Lockers" Command="{Binding GoToStep1Command}"/>
                 <Button Content="  Step 2: Cart &amp; Confirm" Command="{Binding GoToStep2Command}"/>
+                <Button Content="  Step 3: Order Tracking" Command="{Binding GoToStep3Command}"/>
                 <TextBlock Text="MANAGEMENT" Foreground="#7F8C8D" FontSize="11" FontWeight="Bold" Margin="15,20,0,5"/>
                 <Button Content="🏭 Supplier" Command="{Binding GoToSupplierCommand}"/>
                 <Button Content="  👥 Customers List" Command="{Binding GoToCustomerCommand}" HorizontalAlignment="Stretch"/>

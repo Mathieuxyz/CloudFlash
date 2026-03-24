@@ -1,93 +1,54 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:CloudFlash.ViewModels"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d"
-        d:DesignWidth="800" d:DesignHeight="450"
+        xmlns:views="using:CloudFlash.Views"
         x:Class="CloudFlash.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
-        Icon="/Assets/avalonia-logo.ico"
-        Title="Project_Bac3"
-        TransparencyLevelHint="AcrylicBlur"
-        Background="Black">
+        Title="Kitbox App - Modular"
+        Background="#1E1E1E">
 
-    <!-- LAYOUT PRINCIPAL -->
-    <Grid ColumnDefinitions="200,*">
+    <Window.DataTemplates>
+        <DataTemplate DataType="vm:HomeViewModel"><views:HomeView/></DataTemplate>
+        <DataTemplate DataType="vm:CustomersViewModel"><views:CustomerView/></DataTemplate>
+        <DataTemplate DataType="vm:OrderStep1ViewModel"><views:OrderStep1View/></DataTemplate>
+        <DataTemplate DataType="vm:OrderStep2ViewModel"><views:OrderStep2View/></DataTemplate>
+        <DataTemplate DataType="vm:SupplierViewModel"><views:SupplierView/></DataTemplate>
+    </Window.DataTemplates>
 
-        <!-- COLONNE 0 : BARRE LATÉRALE (Sidebar) -->
-        <Border Grid.Column="0" Background="#2C3E50">
-            <StackPanel Spacing="15" Margin="20,40,20,0">
-
+    <Grid ColumnDefinitions="220,*">
+        <!-- SIDEBAR -->
+        <Border Grid.Column="0" Background="#17202A">
+            <StackPanel Spacing="5" Margin="15,30,15,0">
+                <TextBlock Text="KITBOX" FontSize="24" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+                
                 <StackPanel.Styles>
                     <Style Selector="Button">
                         <Setter Property="HorizontalAlignment" Value="Stretch"/>
-                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                        <Setter Property="Background" Value="#5D6D7E"/>
-                        <Setter Property="Foreground" Value="White"/>
-                        <Setter Property="Padding" Value="10"/>
-                        <Setter Property="CornerRadius" Value="3"/>
-                        <Setter Property="FontSize" Value="14"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="Foreground" Value="#BDC3C7"/>
+                        <Setter Property="Padding" Value="15,12"/>
+                        <Setter Property="CornerRadius" Value="4"/>
                     </Style>
                     <Style Selector="Button:pointerover /template/ ContentPresenter">
-                        <Setter Property="Background" Value="#7F8C8D"/>
+                        <Setter Property="Background" Value="#2C3E50"/>
+                        <Setter Property="Foreground" Value="White"/>
                     </Style>
                 </StackPanel.Styles>
 
-                <Button Content="Home" Command="{Binding GoHomeCommand}"/>
-                <Button Content="Composition of the order"/>
+                <Button Content="🏠 Home" Command="{Binding GoHomeCommand}"/>
+                <TextBlock Text="NEW ORDER" Foreground="#7F8C8D" FontSize="11" FontWeight="Bold" Margin="15,20,0,5"/>
+                <Button Content="  Step 1: Build Lockers" Command="{Binding GoToStep1Command}"/>
+                <Button Content="  Step 2: Cart &amp; Confirm" Command="{Binding GoToStep2Command}"/>
+                <TextBlock Text="MANAGEMENT" Foreground="#7F8C8D" FontSize="11" FontWeight="Bold" Margin="15,20,0,5"/>
+                <Button Content="🏭 Supplier" Command="{Binding GoToSupplierCommand}"/>
+                <Button Content="  👥 Customers List" Command="{Binding GoToCustomerCommand}" HorizontalAlignment="Stretch"/>
             </StackPanel>
         </Border>
 
-        <!-- COLONNE 1 : CONTENU DYNAMIQUE -->
-        <ScrollViewer Grid.Column="1" Padding="20">
-            <StackPanel Spacing="15">
-
-                <!-- TITRE -->
-                <TextBlock Text="Composition of the order"
-                           FontSize="24"
-                           FontWeight="Bold"
-                           Foreground="White"
-                           Margin="0,0,0,20"/>
-
-                <!-- INSTRUCTIONS -->
-                <TextBlock TextWrapping="Wrap" Foreground="White">
-                    Currently, to buy a cabinet, the customer has to go to the store. Based on the paper catalogue, the customer manually completes an order form and gives it to the seller. Each cabinet is made up of several lockers. The height of the locker can vary (see the possibilities in the catalogue). A maximum of 7 lockers can be assembled. The lockers are held together by 4 angle irons, which come in standard lengths, but can be cut to fit lockers of different heights.
-                </TextBlock>
-
-                <!-- Nombre de lockers -->
-                <StackPanel Orientation="Horizontal" Spacing="10">
-                    <TextBlock Text="Number of lockers:" Foreground="White" VerticalAlignment="Center"/>
-                    <ComboBox Width="60">
-                        <ComboBoxItem Content="1"/>
-                        <ComboBoxItem Content="2"/>
-                        <ComboBoxItem Content="3"/>
-                        <ComboBoxItem Content="4"/>
-                        <ComboBoxItem Content="5"/>
-                        <ComboBoxItem Content="6"/>
-                        <ComboBoxItem Content="7"/>
-                    </ComboBox>
-                </StackPanel>
-
-                <!-- Exemple de saisie des hauteurs -->
-                <StackPanel Orientation="Horizontal" Spacing="10">
-                    <TextBlock Text="Locker 1 height (cm):" Foreground="White" VerticalAlignment="Center"/>
-                    <TextBox Width="100" Text="100"/>
-                </StackPanel>
-
-                <StackPanel Orientation="Horizontal" Spacing="10">
-                    <TextBlock Text="Locker 2 height (cm):" Foreground="White" VerticalAlignment="Center"/>
-                    <TextBox Width="100" Text="100"/>
-                </StackPanel>
-
-                <!-- Bouton placeholder -->
-                <Button Content="Calculate total angle iron height"
-                        HorizontalAlignment="Left"
-                        Width="250"
-                        Margin="0,20,0,0"/>
-
-            </StackPanel>
-        </ScrollViewer>
-
+        <!-- MAIN CONTENT -->
+        <Border Grid.Column="1" Background="#1E1E1E">
+            <TransitioningContentControl Content="{Binding CurrentPage}" />
+        </Border>
     </Grid>
 </Window>

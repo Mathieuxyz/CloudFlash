@@ -8,103 +8,101 @@ using Renci.SshNet;
 namespace SGS.Services
 {
     // ================================================================
-    // MODEL CLASSES - one per table
+    // MODEL CLASSES - aligned with v2 database schema
     // ================================================================
 
     public class Customer
     {
-        public int Id { get; set; }
-        public string FirstName { get; set; } = "";
-        public string LastName { get; set; } = "";
-        public string? Email { get; set; }
+        public int     Id    { get; set; }
         public string? Phone { get; set; }
-        public string? Address { get; set; }
-        public string? City { get; set; }
-        public string? ZipCode { get; set; }
-        public string? Country { get; set; }
-        public DateTime CreationDate { get; set; }
+        public string? Email { get; set; }
     }
 
     public class Order
     {
-        public int Id { get; set; }
-        public int CustomerId { get; set; }
-        public DateTime OrderDate { get; set; }
-        public string Status { get; set; } = "Pending";
-        public decimal TotalAmount { get; set; }
-        public decimal DepositAmount { get; set; }
-        public bool DepositPaid { get; set; }
-        public DateTime? InvoiceDate { get; set; }
+        public int       Id            { get; set; }
+        public int       CustomerId    { get; set; }
+        public DateTime  OrderDate     { get; set; }
+        public string    Status        { get; set; } = "Pending";
+        public decimal   TotalAmount   { get; set; }
+        public decimal   DepositAmount { get; set; }
+        public bool      DepositPaid   { get; set; }
+        public DateTime? InvoiceDate   { get; set; }
     }
 
     public class Cabinet
     {
-        public int Id { get; set; }
-        public string AngleIronColor { get; set; } = "";
-        public decimal? AngleIronHeight { get; set; }
-        public DateTime CreationDate { get; set; }
-    }
-
-    public class OrderCabinet
-    {
-        public int OrderId { get; set; }
-        public int CabinetId { get; set; }
-        public int Quantity { get; set; }
+        public int      Id                  { get; set; }
+        public int      OrderId             { get; set; }
+        public int      Quantity            { get; set; }
+        public string   AngleIronPartCode   { get; set; } = "";
+        public decimal? AngleIronCutHeight  { get; set; }
+        public decimal  Width               { get; set; }
+        public decimal  Depth               { get; set; }
+        public DateTime CreationDate        { get; set; }
     }
 
     public class Locker
     {
-        public int Id { get; set; }
-        public int CabinetId { get; set; }
-        public int Position { get; set; }
-        public decimal Height { get; set; }
-        public decimal Width { get; set; }
-        public decimal Depth { get; set; }
-        public string Color { get; set; } = "";
-        public bool HasDoors { get; set; }
+        public int     Id        { get; set; }
+        public int     CabinetId { get; set; }
+        public int     Position  { get; set; }
+        public decimal Height    { get; set; }
+        public string  Color     { get; set; } = "";
+        public bool    HasDoors  { get; set; }
         public string? DoorColor { get; set; }
+    }
+
+    public class LockerPart
+    {
+        public int    LockerId { get; set; }
+        public string PartCode { get; set; } = "";
+        public int    Quantity { get; set; }
     }
 
     public class Part
     {
-        public string Code { get; set; } = "";
-        public string Kind { get; set; } = "";
-        public string? Color { get; set; }
-        public decimal? Height { get; set; }
-        public decimal? Width { get; set; }
-        public decimal? Depth { get; set; }
-        public decimal CustomerPrice { get; set; }
-        public int InStock { get; set; }
-        public int MinStock { get; set; }
-        public int? NbPartsByLocker { get; set; }
+        public string   Code            { get; set; } = "";
+        public string   Kind            { get; set; } = "";
+        public string?  Color           { get; set; }
+        public decimal? Height          { get; set; }
+        public decimal? Width           { get; set; }
+        public decimal? Depth           { get; set; }
+        public decimal  CustomerPrice   { get; set; }
+        public int      InStock         { get; set; }
+        public int      MinStock        { get; set; }
+        public int?     NbPartsByLocker { get; set; }
     }
 
     public class Supplier
     {
-        public int Id { get; set; }
+        public int    Id   { get; set; }
         public string Name { get; set; } = "";
     }
 
     public class CatalogEntry
     {
-        public string PartCode { get; set; } = "";
-        public int SupplierId { get; set; }
-        public decimal Price { get; set; }
-        public int DeliveryTime { get; set; }
+        public string  PartCode     { get; set; } = "";
+        public int     SupplierId   { get; set; }
+        public decimal Price        { get; set; }
+        public int     DeliveryTime { get; set; }
     }
 
-    public class LockerPart
+    public class SupplierOrder
     {
-        public int LockerId { get; set; }
-        public string PartCode { get; set; } = "";
-        public int Quantity { get; set; }
+        public int       Id           { get; set; }
+        public int       SupplierId   { get; set; }
+        public DateTime  OrderDate    { get; set; }
+        public string    Status       { get; set; } = "Pending";
+        public DateTime? ExpectedDate { get; set; }
     }
 
-    public class CabinetPart
+    public class SupplierOrderDetail
     {
-        public int CabinetId { get; set; }
-        public string PartCode { get; set; } = "";
-        public int Quantity { get; set; }
+        public int     SupplierOrderId { get; set; }
+        public string  PartCode        { get; set; } = "";
+        public int     Quantity        { get; set; }
+        public decimal UnitPrice       { get; set; }
     }
 
     // ================================================================
@@ -113,21 +111,19 @@ namespace SGS.Services
 
     public class DataBaseServices : IDisposable
     {
-        // SSH Configuration
-        private const string SshHost = "pat.infolab.ecam.be";
-        private const int SshPort = 62221;
-        private const string SshUser = "student-admin";
-        private const string SshPass = "£r&49Tf2~3£@";
+        private const string SshHost  = "pat.infolab.ecam.be";
+        private const int    SshPort  = 62221;
+        private const string SshUser  = "student-admin";
+        private const string SshPass  = "£r&49Tf2~3£@";
 
-        // Database Configuration
-        private const string DbUser = "clovis";
-        private const string DbPass = "SGS_db_password";
-        private const string DbName = "SGS_db";
-        private const int LocalPort = 3307;
+        private const string DbUser    = "clovis";
+        private const string DbPass    = "SGS_db_password";
+        private const string DbName    = "SGS_db";
+        private const int    LocalPort = 3307;
 
-        private SshClient? _sshClient;
+        private SshClient?         _sshClient;
         private ForwardedPortLocal? _forwardedPort;
-        private MySqlConnection? _dbConnection;
+        private MySqlConnection?   _dbConnection;
 
         // ----------------------------------------------------------------
         // CONNECTION
@@ -160,7 +156,7 @@ namespace SGS.Services
         {
             var list = new List<Customer>();
             await EnsureConnectedAsync();
-            using var cmd = new MySqlCommand("SELECT * FROM Customers;", _dbConnection);
+            using var cmd    = new MySqlCommand("SELECT * FROM Customers;", _dbConnection);
             using var reader = await cmd.ExecuteReaderAsync();
             while (await reader.ReadAsync())
                 list.Add(ReadCustomer(reader));
@@ -170,7 +166,7 @@ namespace SGS.Services
         public async Task<Customer?> GetCustomerByIdAsync(int id)
         {
             await EnsureConnectedAsync();
-            using var cmd = new MySqlCommand("SELECT * FROM Customers WHERE ID = @id;", _dbConnection);
+            using var cmd    = new MySqlCommand("SELECT * FROM Customers WHERE ID = @id;", _dbConnection);
             cmd.Parameters.AddWithValue("@id", id);
             using var reader = await cmd.ExecuteReaderAsync();
             return await reader.ReadAsync() ? ReadCustomer(reader) : null;
@@ -180,51 +176,30 @@ namespace SGS.Services
         {
             await EnsureConnectedAsync();
             using var cmd = new MySqlCommand(@"
-                INSERT INTO Customers (FirstName, LastName, Email, Phone, Address, City, ZipCode, Country)
-                VALUES (@fn, @ln, @email, @phone, @addr, @city, @zip, @country);
+                INSERT INTO Customers (Phone, Email)
+                VALUES (@phone, @email);
                 SELECT LAST_INSERT_ID();", _dbConnection);
-            cmd.Parameters.AddWithValue("@fn", c.FirstName);
-            cmd.Parameters.AddWithValue("@ln", c.LastName);
-            cmd.Parameters.AddWithValue("@email", (object?)c.Email ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@phone", (object?)c.Phone ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@addr", (object?)c.Address ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@city", (object?)c.City ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@zip", (object?)c.ZipCode ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@country", (object?)c.Country ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@email", (object?)c.Email ?? DBNull.Value);
             return Convert.ToInt32(await cmd.ExecuteScalarAsync());
         }
 
         public async Task UpdateCustomerAsync(Customer c)
         {
             await EnsureConnectedAsync();
-            using var cmd = new MySqlCommand(@"
-                UPDATE Customers SET FirstName=@fn, LastName=@ln, Email=@email,
-                Phone=@phone, Address=@addr, City=@city, ZipCode=@zip, Country=@country
-                WHERE ID=@id;", _dbConnection);
-            cmd.Parameters.AddWithValue("@id", c.Id);
-            cmd.Parameters.AddWithValue("@fn", c.FirstName);
-            cmd.Parameters.AddWithValue("@ln", c.LastName);
-            cmd.Parameters.AddWithValue("@email", (object?)c.Email ?? DBNull.Value);
+            using var cmd = new MySqlCommand(
+                "UPDATE Customers SET Phone=@phone, Email=@email WHERE ID=@id;", _dbConnection);
+            cmd.Parameters.AddWithValue("@id",    c.Id);
             cmd.Parameters.AddWithValue("@phone", (object?)c.Phone ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@addr", (object?)c.Address ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@city", (object?)c.City ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@zip", (object?)c.ZipCode ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@country", (object?)c.Country ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@email", (object?)c.Email ?? DBNull.Value);
             await cmd.ExecuteNonQueryAsync();
         }
 
         private static Customer ReadCustomer(MySqlDataReader r) => new()
         {
-            Id           = r.GetInt32("ID"),
-            FirstName    = r.GetString("FirstName"),
-            LastName     = r.GetString("LastName"),
-            Email        = r.IsDBNull("Email") ? null : r.GetString("Email"),
-            Phone        = r.IsDBNull("Phone") ? null : r.GetString("Phone"),
-            Address      = r.IsDBNull("Address") ? null : r.GetString("Address"),
-            City         = r.IsDBNull("City") ? null : r.GetString("City"),
-            ZipCode      = r.IsDBNull("ZipCode") ? null : r.GetString("ZipCode"),
-            Country      = r.IsDBNull("Country") ? null : r.GetString("Country"),
-            CreationDate = r.GetDateTime("CreationDate")
+            Id    = r.GetInt32("ID"),
+            Phone = r.IsDBNull("Phone") ? null : r.GetString("Phone"),
+            Email = r.IsDBNull("Email") ? null : r.GetString("Email")
         };
 
         // ----------------------------------------------------------------
@@ -235,7 +210,7 @@ namespace SGS.Services
         {
             var list = new List<Order>();
             await EnsureConnectedAsync();
-            using var cmd = new MySqlCommand("SELECT * FROM Orders WHERE CustomerID = @id;", _dbConnection);
+            using var cmd    = new MySqlCommand("SELECT * FROM Orders WHERE CustomerID = @id;", _dbConnection);
             cmd.Parameters.AddWithValue("@id", customerId);
             using var reader = await cmd.ExecuteReaderAsync();
             while (await reader.ReadAsync())
@@ -246,7 +221,7 @@ namespace SGS.Services
         public async Task<Order?> GetOrderByIdAsync(int id)
         {
             await EnsureConnectedAsync();
-            using var cmd = new MySqlCommand("SELECT * FROM Orders WHERE ID = @id;", _dbConnection);
+            using var cmd    = new MySqlCommand("SELECT * FROM Orders WHERE ID = @id;", _dbConnection);
             cmd.Parameters.AddWithValue("@id", id);
             using var reader = await cmd.ExecuteReaderAsync();
             return await reader.ReadAsync() ? ReadOrder(reader) : null;
@@ -259,20 +234,21 @@ namespace SGS.Services
                 INSERT INTO Orders (CustomerID, Status, TotalAmount, DepositAmount, DepositPaid)
                 VALUES (@cid, @status, @total, @deposit, @paid);
                 SELECT LAST_INSERT_ID();", _dbConnection);
-            cmd.Parameters.AddWithValue("@cid", o.CustomerId);
-            cmd.Parameters.AddWithValue("@status", o.Status);
-            cmd.Parameters.AddWithValue("@total", o.TotalAmount);
+            cmd.Parameters.AddWithValue("@cid",     o.CustomerId);
+            cmd.Parameters.AddWithValue("@status",  o.Status);
+            cmd.Parameters.AddWithValue("@total",   o.TotalAmount);
             cmd.Parameters.AddWithValue("@deposit", o.DepositAmount);
-            cmd.Parameters.AddWithValue("@paid", o.DepositPaid ? 1 : 0);
+            cmd.Parameters.AddWithValue("@paid",    o.DepositPaid ? 1 : 0);
             return Convert.ToInt32(await cmd.ExecuteScalarAsync());
         }
 
         public async Task UpdateOrderStatusAsync(int orderId, string status)
         {
             await EnsureConnectedAsync();
-            using var cmd = new MySqlCommand("UPDATE Orders SET Status=@status WHERE ID=@id;", _dbConnection);
+            using var cmd = new MySqlCommand(
+                "UPDATE Orders SET Status=@status WHERE ID=@id;", _dbConnection);
             cmd.Parameters.AddWithValue("@status", status);
-            cmd.Parameters.AddWithValue("@id", orderId);
+            cmd.Parameters.AddWithValue("@id",     orderId);
             await cmd.ExecuteNonQueryAsync();
         }
 
@@ -299,99 +275,86 @@ namespace SGS.Services
 
         // ----------------------------------------------------------------
         // CABINETS
+        // Merged: OrderID + Quantity + AngleIronPartCode now in Cabinets
+        // Width + Depth also in Cabinets (shared by all lockers)
         // ----------------------------------------------------------------
 
         public async Task<int> AddCabinetAsync(Cabinet cab)
         {
             await EnsureConnectedAsync();
             using var cmd = new MySqlCommand(@"
-                INSERT INTO Cabinets (AngleIronColor, AngleIronHeight)
-                VALUES (@color, @height);
+                INSERT INTO Cabinets (OrderID, Quantity, AngleIronPartCode, AngleIronCutHeight, Width, Depth)
+                VALUES (@oid, @qty, @partcode, @cutheight, @width, @depth);
                 SELECT LAST_INSERT_ID();", _dbConnection);
-            cmd.Parameters.AddWithValue("@color", cab.AngleIronColor);
-            cmd.Parameters.AddWithValue("@height", (object?)cab.AngleIronHeight ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@oid",       cab.OrderId);
+            cmd.Parameters.AddWithValue("@qty",       cab.Quantity);
+            cmd.Parameters.AddWithValue("@partcode",  cab.AngleIronPartCode);
+            cmd.Parameters.AddWithValue("@cutheight", (object?)cab.AngleIronCutHeight ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@width",     cab.Width);
+            cmd.Parameters.AddWithValue("@depth",     cab.Depth);
             return Convert.ToInt32(await cmd.ExecuteScalarAsync());
         }
 
         public async Task<Cabinet?> GetCabinetByIdAsync(int id)
         {
             await EnsureConnectedAsync();
-            using var cmd = new MySqlCommand("SELECT * FROM Cabinets WHERE ID = @id;", _dbConnection);
+            using var cmd    = new MySqlCommand("SELECT * FROM Cabinets WHERE ID = @id;", _dbConnection);
             cmd.Parameters.AddWithValue("@id", id);
             using var reader = await cmd.ExecuteReaderAsync();
             return await reader.ReadAsync() ? ReadCabinet(reader) : null;
         }
 
-        public async Task UpdateCabinetHeightAsync(int cabinetId, decimal totalHeight)
+        public async Task<List<Cabinet>> GetCabinetsByOrderAsync(int orderId)
+        {
+            var list = new List<Cabinet>();
+            await EnsureConnectedAsync();
+            using var cmd    = new MySqlCommand("SELECT * FROM Cabinets WHERE OrderID = @id;", _dbConnection);
+            cmd.Parameters.AddWithValue("@id", orderId);
+            using var reader = await cmd.ExecuteReaderAsync();
+            while (await reader.ReadAsync())
+                list.Add(ReadCabinet(reader));
+            return list;
+        }
+
+        public async Task UpdateCabinetCutHeightAsync(int cabinetId, decimal cutHeight)
         {
             await EnsureConnectedAsync();
             using var cmd = new MySqlCommand(
-                "UPDATE Cabinets SET AngleIronHeight=@h WHERE ID=@id;", _dbConnection);
-            cmd.Parameters.AddWithValue("@h", totalHeight);
+                "UPDATE Cabinets SET AngleIronCutHeight=@h WHERE ID=@id;", _dbConnection);
+            cmd.Parameters.AddWithValue("@h",  cutHeight);
             cmd.Parameters.AddWithValue("@id", cabinetId);
             await cmd.ExecuteNonQueryAsync();
         }
 
         private static Cabinet ReadCabinet(MySqlDataReader r) => new()
         {
-            Id              = r.GetInt32("ID"),
-            AngleIronColor  = r.GetString("AngleIronColor"),
-            AngleIronHeight = r.IsDBNull("AngleIronHeight") ? null : r.GetDecimal("AngleIronHeight"),
-            CreationDate    = r.GetDateTime("CreationDate")
+            Id                 = r.GetInt32("ID"),
+            OrderId            = r.GetInt32("OrderID"),
+            Quantity           = r.GetInt32("Quantity"),
+            AngleIronPartCode  = r.GetString("AngleIronPartCode"),
+            AngleIronCutHeight = r.IsDBNull("AngleIronCutHeight") ? null : r.GetDecimal("AngleIronCutHeight"),
+            Width              = r.GetDecimal("Width"),
+            Depth              = r.GetDecimal("Depth"),
+            CreationDate       = r.GetDateTime("CreationDate")
         };
 
         // ----------------------------------------------------------------
-        // ORDER CABINETS
-        // ----------------------------------------------------------------
-
-        public async Task AddOrderCabinetAsync(int orderId, int cabinetId, int quantity)
-        {
-            await EnsureConnectedAsync();
-            using var cmd = new MySqlCommand(@"
-                INSERT INTO OrderCabinets (OrderID, CabinetID, Quantity)
-                VALUES (@oid, @cid, @qty);", _dbConnection);
-            cmd.Parameters.AddWithValue("@oid", orderId);
-            cmd.Parameters.AddWithValue("@cid", cabinetId);
-            cmd.Parameters.AddWithValue("@qty", quantity);
-            await cmd.ExecuteNonQueryAsync();
-        }
-
-        public async Task<List<OrderCabinet>> GetCabinetsByOrderAsync(int orderId)
-        {
-            var list = new List<OrderCabinet>();
-            await EnsureConnectedAsync();
-            using var cmd = new MySqlCommand(
-                "SELECT * FROM OrderCabinets WHERE OrderID = @id;", _dbConnection);
-            cmd.Parameters.AddWithValue("@id", orderId);
-            using var reader = await cmd.ExecuteReaderAsync();
-            while (await reader.ReadAsync())
-                list.Add(new OrderCabinet
-                {
-                    OrderId   = reader.GetInt32("OrderID"),
-                    CabinetId = reader.GetInt32("CabinetID"),
-                    Quantity  = reader.GetInt32("Quantity")
-                });
-            return list;
-        }
-
-        // ----------------------------------------------------------------
         // LOCKERS
+        // Width + Depth removed (now in Cabinets)
         // ----------------------------------------------------------------
 
         public async Task<int> AddLockerAsync(Locker l)
         {
             await EnsureConnectedAsync();
             using var cmd = new MySqlCommand(@"
-                INSERT INTO Lockers (CabinetID, Position, Height, Width, Depth, Color, HasDoors, DoorColor)
-                VALUES (@cid, @pos, @h, @w, @d, @color, @doors, @doorcolor);
+                INSERT INTO Lockers (CabinetID, Position, Height, Color, HasDoors, DoorColor)
+                VALUES (@cid, @pos, @h, @color, @doors, @doorcolor);
                 SELECT LAST_INSERT_ID();", _dbConnection);
-            cmd.Parameters.AddWithValue("@cid", l.CabinetId);
-            cmd.Parameters.AddWithValue("@pos", l.Position);
-            cmd.Parameters.AddWithValue("@h", l.Height);
-            cmd.Parameters.AddWithValue("@w", l.Width);
-            cmd.Parameters.AddWithValue("@d", l.Depth);
-            cmd.Parameters.AddWithValue("@color", l.Color);
-            cmd.Parameters.AddWithValue("@doors", l.HasDoors ? 1 : 0);
+            cmd.Parameters.AddWithValue("@cid",       l.CabinetId);
+            cmd.Parameters.AddWithValue("@pos",       l.Position);
+            cmd.Parameters.AddWithValue("@h",         l.Height);
+            cmd.Parameters.AddWithValue("@color",     l.Color);
+            cmd.Parameters.AddWithValue("@doors",     l.HasDoors ? 1 : 0);
             cmd.Parameters.AddWithValue("@doorcolor", (object?)l.DoorColor ?? DBNull.Value);
             return Convert.ToInt32(await cmd.ExecuteScalarAsync());
         }
@@ -400,7 +363,7 @@ namespace SGS.Services
         {
             var list = new List<Locker>();
             await EnsureConnectedAsync();
-            using var cmd = new MySqlCommand(
+            using var cmd    = new MySqlCommand(
                 "SELECT * FROM Lockers WHERE CabinetID = @id ORDER BY Position;", _dbConnection);
             cmd.Parameters.AddWithValue("@id", cabinetId);
             using var reader = await cmd.ExecuteReaderAsync();
@@ -415,8 +378,6 @@ namespace SGS.Services
             CabinetId = r.GetInt32("CabinetID"),
             Position  = r.GetInt32("Position"),
             Height    = r.GetDecimal("Height"),
-            Width     = r.GetDecimal("Width"),
-            Depth     = r.GetDecimal("Depth"),
             Color     = r.GetString("Color"),
             HasDoors  = r.GetInt32("HasDoors") == 1,
             DoorColor = r.IsDBNull("DoorColor") ? null : r.GetString("DoorColor")
@@ -432,9 +393,9 @@ namespace SGS.Services
             using var cmd = new MySqlCommand(@"
                 INSERT INTO LockerParts (LockerID, PartCode, Quantity)
                 VALUES (@lid, @code, @qty);", _dbConnection);
-            cmd.Parameters.AddWithValue("@lid", lockerId);
+            cmd.Parameters.AddWithValue("@lid",  lockerId);
             cmd.Parameters.AddWithValue("@code", partCode);
-            cmd.Parameters.AddWithValue("@qty", quantity);
+            cmd.Parameters.AddWithValue("@qty",  quantity);
             await cmd.ExecuteNonQueryAsync();
         }
 
@@ -442,7 +403,7 @@ namespace SGS.Services
         {
             var list = new List<LockerPart>();
             await EnsureConnectedAsync();
-            using var cmd = new MySqlCommand(
+            using var cmd    = new MySqlCommand(
                 "SELECT * FROM LockerParts WHERE LockerID = @id;", _dbConnection);
             cmd.Parameters.AddWithValue("@id", lockerId);
             using var reader = await cmd.ExecuteReaderAsync();
@@ -457,40 +418,6 @@ namespace SGS.Services
         }
 
         // ----------------------------------------------------------------
-        // CABINET PARTS (angle irons)
-        // ----------------------------------------------------------------
-
-        public async Task AddCabinetPartAsync(int cabinetId, string partCode, int quantity = 4)
-        {
-            await EnsureConnectedAsync();
-            using var cmd = new MySqlCommand(@"
-                INSERT INTO CabinetParts (CabinetID, PartCode, Quantity)
-                VALUES (@cid, @code, @qty);", _dbConnection);
-            cmd.Parameters.AddWithValue("@cid", cabinetId);
-            cmd.Parameters.AddWithValue("@code", partCode);
-            cmd.Parameters.AddWithValue("@qty", quantity);
-            await cmd.ExecuteNonQueryAsync();
-        }
-
-        public async Task<List<CabinetPart>> GetPartsByCabinetAsync(int cabinetId)
-        {
-            var list = new List<CabinetPart>();
-            await EnsureConnectedAsync();
-            using var cmd = new MySqlCommand(
-                "SELECT * FROM CabinetParts WHERE CabinetID = @id;", _dbConnection);
-            cmd.Parameters.AddWithValue("@id", cabinetId);
-            using var reader = await cmd.ExecuteReaderAsync();
-            while (await reader.ReadAsync())
-                list.Add(new CabinetPart
-                {
-                    CabinetId = reader.GetInt32("CabinetID"),
-                    PartCode  = reader.GetString("PartCode"),
-                    Quantity  = reader.GetInt32("Quantity")
-                });
-            return list;
-        }
-
-        // ----------------------------------------------------------------
         // PARTS & STOCK
         // ----------------------------------------------------------------
 
@@ -498,7 +425,7 @@ namespace SGS.Services
         {
             var list = new List<Part>();
             await EnsureConnectedAsync();
-            using var cmd = new MySqlCommand("SELECT * FROM Parts;", _dbConnection);
+            using var cmd    = new MySqlCommand("SELECT * FROM Parts;", _dbConnection);
             using var reader = await cmd.ExecuteReaderAsync();
             while (await reader.ReadAsync())
                 list.Add(ReadPart(reader));
@@ -509,7 +436,7 @@ namespace SGS.Services
         {
             var list = new List<Part>();
             await EnsureConnectedAsync();
-            using var cmd = new MySqlCommand(
+            using var cmd    = new MySqlCommand(
                 "SELECT * FROM Parts WHERE Kind = @kind;", _dbConnection);
             cmd.Parameters.AddWithValue("@kind", kind);
             using var reader = await cmd.ExecuteReaderAsync();
@@ -521,7 +448,7 @@ namespace SGS.Services
         public async Task<Part?> GetPartByCodeAsync(string code)
         {
             await EnsureConnectedAsync();
-            using var cmd = new MySqlCommand(
+            using var cmd    = new MySqlCommand(
                 "SELECT * FROM Parts WHERE Code = @code;", _dbConnection);
             cmd.Parameters.AddWithValue("@code", code);
             using var reader = await cmd.ExecuteReaderAsync();
@@ -534,18 +461,15 @@ namespace SGS.Services
             using var cmd = new MySqlCommand(
                 "UPDATE Parts SET InStock=@stock WHERE Code=@code;", _dbConnection);
             cmd.Parameters.AddWithValue("@stock", newStock);
-            cmd.Parameters.AddWithValue("@code", partCode);
+            cmd.Parameters.AddWithValue("@code",  partCode);
             await cmd.ExecuteNonQueryAsync();
         }
 
-        /// <summary>
-        /// Returns all parts where InStock is below MinStock — used for restocking alerts.
-        /// </summary>
         public async Task<List<Part>> GetLowStockPartsAsync()
         {
             var list = new List<Part>();
             await EnsureConnectedAsync();
-            using var cmd = new MySqlCommand(
+            using var cmd    = new MySqlCommand(
                 "SELECT * FROM Parts WHERE InStock < MinStock;", _dbConnection);
             using var reader = await cmd.ExecuteReaderAsync();
             while (await reader.ReadAsync())
@@ -557,10 +481,10 @@ namespace SGS.Services
         {
             Code            = r.GetString("Code"),
             Kind            = r.GetString("Kind"),
-            Color           = r.IsDBNull("Color") ? null : r.GetString("Color"),
-            Height          = r.IsDBNull("Height") ? null : r.GetDecimal("Height"),
-            Width           = r.IsDBNull("Width") ? null : r.GetDecimal("Width"),
-            Depth           = r.IsDBNull("Depth") ? null : r.GetDecimal("Depth"),
+            Color           = r.IsDBNull("Color")           ? null : r.GetString("Color"),
+            Height          = r.IsDBNull("Height")          ? null : r.GetDecimal("Height"),
+            Width           = r.IsDBNull("Width")           ? null : r.GetDecimal("Width"),
+            Depth           = r.IsDBNull("Depth")           ? null : r.GetDecimal("Depth"),
             CustomerPrice   = r.GetDecimal("CustomerPrice"),
             InStock         = r.GetInt32("InStock"),
             MinStock        = r.GetInt32("MinStock"),
@@ -575,7 +499,7 @@ namespace SGS.Services
         {
             var list = new List<Supplier>();
             await EnsureConnectedAsync();
-            using var cmd = new MySqlCommand("SELECT * FROM Suppliers;", _dbConnection);
+            using var cmd    = new MySqlCommand("SELECT * FROM Suppliers;", _dbConnection);
             using var reader = await cmd.ExecuteReaderAsync();
             while (await reader.ReadAsync())
                 list.Add(new Supplier
@@ -586,10 +510,7 @@ namespace SGS.Services
             return list;
         }
 
-        /// <summary>
-        /// Returns the best supplier for a part: cheapest price, then fastest delivery on tie.
-        /// Implements the PDF rule directly in SQL.
-        /// </summary>
+        // Best supplier = cheapest price, tie-break = fastest delivery (PDF rule)
         public async Task<CatalogEntry?> GetBestSupplierForPartAsync(string partCode)
         {
             await EnsureConnectedAsync();
@@ -616,10 +537,95 @@ namespace SGS.Services
                 UPDATE Catalog SET Price=@price, DeliveryTime=@time
                 WHERE PartCode=@code AND SupplierID=@sid;", _dbConnection);
             cmd.Parameters.AddWithValue("@price", newPrice);
-            cmd.Parameters.AddWithValue("@time", newDeliveryTime);
-            cmd.Parameters.AddWithValue("@code", partCode);
-            cmd.Parameters.AddWithValue("@sid", supplierId);
+            cmd.Parameters.AddWithValue("@time",  newDeliveryTime);
+            cmd.Parameters.AddWithValue("@code",  partCode);
+            cmd.Parameters.AddWithValue("@sid",   supplierId);
             await cmd.ExecuteNonQueryAsync();
+        }
+
+        // ----------------------------------------------------------------
+        // SUPPLIER ORDERS
+        // ----------------------------------------------------------------
+
+        public async Task<int> AddSupplierOrderAsync(SupplierOrder so)
+        {
+            await EnsureConnectedAsync();
+            using var cmd = new MySqlCommand(@"
+                INSERT INTO SupplierOrders (SupplierID, Status, ExpectedDate)
+                VALUES (@sid, @status, @expected);
+                SELECT LAST_INSERT_ID();", _dbConnection);
+            cmd.Parameters.AddWithValue("@sid",      so.SupplierId);
+            cmd.Parameters.AddWithValue("@status",   so.Status);
+            cmd.Parameters.AddWithValue("@expected", (object?)so.ExpectedDate ?? DBNull.Value);
+            return Convert.ToInt32(await cmd.ExecuteScalarAsync());
+        }
+
+        public async Task<List<SupplierOrder>> GetSupplierOrdersBySupplierAsync(int supplierId)
+        {
+            var list = new List<SupplierOrder>();
+            await EnsureConnectedAsync();
+            using var cmd    = new MySqlCommand(
+                "SELECT * FROM SupplierOrders WHERE SupplierID = @id;", _dbConnection);
+            cmd.Parameters.AddWithValue("@id", supplierId);
+            using var reader = await cmd.ExecuteReaderAsync();
+            while (await reader.ReadAsync())
+                list.Add(ReadSupplierOrder(reader));
+            return list;
+        }
+
+        public async Task UpdateSupplierOrderStatusAsync(int supplierOrderId, string status)
+        {
+            await EnsureConnectedAsync();
+            using var cmd = new MySqlCommand(
+                "UPDATE SupplierOrders SET Status=@status WHERE ID=@id;", _dbConnection);
+            cmd.Parameters.AddWithValue("@status", status);
+            cmd.Parameters.AddWithValue("@id",     supplierOrderId);
+            await cmd.ExecuteNonQueryAsync();
+        }
+
+        private static SupplierOrder ReadSupplierOrder(MySqlDataReader r) => new()
+        {
+            Id           = r.GetInt32("ID"),
+            SupplierId   = r.GetInt32("SupplierID"),
+            OrderDate    = r.GetDateTime("OrderDate"),
+            Status       = r.GetString("Status"),
+            ExpectedDate = r.IsDBNull("ExpectedDate") ? null : r.GetDateTime("ExpectedDate")
+        };
+
+        // ----------------------------------------------------------------
+        // SUPPLIER ORDER DETAILS
+        // ----------------------------------------------------------------
+
+        public async Task AddSupplierOrderDetailAsync(SupplierOrderDetail d)
+        {
+            await EnsureConnectedAsync();
+            using var cmd = new MySqlCommand(@"
+                INSERT INTO SupplierOrderDetails (SupplierOrderID, PartCode, Quantity, UnitPrice)
+                VALUES (@soid, @code, @qty, @price);", _dbConnection);
+            cmd.Parameters.AddWithValue("@soid",  d.SupplierOrderId);
+            cmd.Parameters.AddWithValue("@code",  d.PartCode);
+            cmd.Parameters.AddWithValue("@qty",   d.Quantity);
+            cmd.Parameters.AddWithValue("@price", d.UnitPrice);
+            await cmd.ExecuteNonQueryAsync();
+        }
+
+        public async Task<List<SupplierOrderDetail>> GetDetailsBySupplierOrderAsync(int supplierOrderId)
+        {
+            var list = new List<SupplierOrderDetail>();
+            await EnsureConnectedAsync();
+            using var cmd    = new MySqlCommand(
+                "SELECT * FROM SupplierOrderDetails WHERE SupplierOrderID = @id;", _dbConnection);
+            cmd.Parameters.AddWithValue("@id", supplierOrderId);
+            using var reader = await cmd.ExecuteReaderAsync();
+            while (await reader.ReadAsync())
+                list.Add(new SupplierOrderDetail
+                {
+                    SupplierOrderId = reader.GetInt32("SupplierOrderID"),
+                    PartCode        = reader.GetString("PartCode"),
+                    Quantity        = reader.GetInt32("Quantity"),
+                    UnitPrice       = reader.GetDecimal("UnitPrice")
+                });
+            return list;
         }
 
         // ----------------------------------------------------------------

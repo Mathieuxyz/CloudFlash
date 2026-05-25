@@ -66,7 +66,47 @@ public partial class OrderStep2ViewModel : ViewModelBase
 
             foreach (var item in Cart) if (item.IsInStock) await _main.Db.UpdateStockAsync(item.PartInfo.Code, item.PartInfo.InStock - item.QuantityNeeded);
 
-            StatusMessage = $"Success! Order #{orderId} confirmed."; _main.GlobalCart.Clear();
+            // Auto-restocking: after updating stock, check for parts that have fallen below minimum
+            var lowStockParts = await _main.Db.GetLowStockPartsAsync();
+            int supplierOrdersCreated = 0;
+            if (lowStockParts.Any())
+            {
+                var ordersToCreate = new Dictionary<int, List<Part>>();
+                foreach (var part in lowStockParts)
+                {
+                    var bestSupplier = await _main.Db.GetBestSupplierForPartAsync(part.Code);
+                    if (bestSupplier != null)
+                    {
+                        if (!ordersToCreate.ContainsKey(bestSupplier.SupplierId))
+                            ordersToCreate[bestSupplier.SupplierId] = new List<Part>();
+                        ordersToCreate[bestSupplier.SupplierId].Add(part);
+                    }
+                }
+                foreach (var kvp in ordersToCreate)
+                {
+                    int supplierOrderId = await _main.Db.AddSupplierOrderAsync(new SupplierOrder
+                    {
+                        SupplierId   = kvp.Key,
+                        Status       = "Pending",
+                        ExpectedDate = DateTime.Now.AddDays(7)
+                    });
+                    foreach (var p in kvp.Value)
+                        await _main.Db.AddSupplierOrderDetailAsync(new SupplierOrderDetail
+                        {
+                            SupplierOrderId = supplierOrderId,
+                            PartCode        = p.Code,
+                            Quantity        = (p.MinStock * 2) - p.InStock,
+                            UnitPrice       = 0
+                        });
+                }
+                supplierOrdersCreated = ordersToCreate.Count;
+            }
+
+            string restockNote = supplierOrdersCreated > 0
+                ? $" {supplierOrdersCreated} supplier order(s) auto-generated."
+                : " Stock is healthy, no restocking needed.";
+            StatusMessage = $"Success! Order #{orderId} confirmed.{restockNote}";
+            _main.GlobalCart.Clear();
         }
         catch (Exception ex) { StatusMessage = $"Error: {ex.Message}"; }
     }

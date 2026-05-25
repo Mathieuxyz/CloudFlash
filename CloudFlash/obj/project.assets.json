@@ -1725,25 +1725,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Clovis Pc\\.nuget\\packages\\": {}
+    "C:\\Users\\franc\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Clovis Pc\\Documents\\informatique\\C#\\CloudFlash\\CloudFlash\\CloudFlash.csproj",
+      "projectUniqueName": "C:\\Users\\franc\\Downloads\\InventorySoft\\CloudFlash\\CloudFlash.csproj",
       "projectName": "CloudFlash",
-      "projectPath": "C:\\Users\\Clovis Pc\\Documents\\informatique\\C#\\CloudFlash\\CloudFlash\\CloudFlash.csproj",
-      "packagesPath": "C:\\Users\\Clovis Pc\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Clovis Pc\\Documents\\informatique\\C#\\CloudFlash\\CloudFlash\\obj\\",
+      "projectPath": "C:\\Users\\franc\\Downloads\\InventorySoft\\CloudFlash\\CloudFlash.csproj",
+      "packagesPath": "C:\\Users\\franc\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\franc\\Downloads\\InventorySoft\\CloudFlash\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Clovis Pc\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\franc\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
       ],
       "sources": {
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -1762,7 +1761,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.300"
+      "SdkAnalysisLevel": "10.0.100"
     },
     "frameworks": {
       "net9.0": {
@@ -1812,12 +1811,30 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[9.0.11, 9.0.11]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Host.win-x64",
+            "version": "[9.0.11, 9.0.11]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[9.0.11, 9.0.11]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Ref",
+            "version": "[9.0.11, 9.0.11]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.100/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

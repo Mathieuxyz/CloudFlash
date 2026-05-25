@@ -27,17 +27,17 @@ public partial class OrderStep1ViewModel : ViewModelBase
     [ObservableProperty] private string _angleIronColor = "White";[ObservableProperty] private decimal _angleIronCutHeight = 0;
     [ObservableProperty] private string _angleIronPartCode = "N/A";
     [ObservableProperty] private Part? _selectedAngleIron;
-    [ObservableProperty] private string _statusMessage = "Prêt à configurer (Max 7 casiers).";
+    [ObservableProperty] private string _statusMessage = "Ready to configure (max 7 lockers).";
 
     public ObservableCollection<LockerItemViewModel> Lockers { get; } = new();
 
-    public OrderStep1ViewModel(MainWindowViewModel main) { _main = main; AddLocker(); }[RelayCommand] public void AddLocker() { if (Lockers.Count < 7) Lockers.Add(new LockerItemViewModel { Position = Lockers.Count + 1 }); else StatusMessage = "Maximum 7 casiers."; }
+    public OrderStep1ViewModel(MainWindowViewModel main) { _main = main; AddLocker(); }[RelayCommand] public void AddLocker() { if (Lockers.Count < 7) Lockers.Add(new LockerItemViewModel { Position = Lockers.Count + 1 }); else StatusMessage = "Maximum 7 lockers."; }
     [RelayCommand] public void RemoveLocker(LockerItemViewModel locker) { if (Lockers.Count > 1) { Lockers.Remove(locker); for (int i=0; i<Lockers.Count; i++) Lockers[i].Position = i+1; } }
 
     [RelayCommand]
     public async Task CalculatePartsAsync()
     {
-        StatusMessage = "Calcul des pièces en cours...";
+        StatusMessage = "Calculating parts...";
         try
         {
             var allParts = await _main.Db.GetAllPartsAsync();
@@ -77,7 +77,7 @@ public partial class OrderStep1ViewModel : ViewModelBase
             
             _main.RequiredDeposit = _main.GlobalCart.Any(c => !c.IsInStock) ? _main.TotalCabinetPrice / 2 : 0;
             _main.DraftCabinet = this;
-            StatusMessage = "Calcul terminé avec succès !";
+            StatusMessage = "Calculation complete!";
         }
         catch (Exception ex) { StatusMessage = $"Erreur DB : {ex.Message}"; }
     }

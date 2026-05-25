@@ -12,7 +12,7 @@ public partial class MainWindowViewModel : ViewModelBase
 
     [ObservableProperty] private ViewModelBase _currentPage;
     
-    // NOUVEAU : Mémorise le client actuellement connecté
+    // Stores the currently selected customer
     public Customer? CurrentCustomer { get; set; }
 
     public ObservableCollection<CartItem> GlobalCart { get; set; } = new();
@@ -23,7 +23,7 @@ public partial class MainWindowViewModel : ViewModelBase
     public MainWindowViewModel()
     {
         Db = new DataBaseServices();
-        CurrentPage = new HomeViewModel(); 
+        CurrentPage = new HomeViewModel();
     }
     [RelayCommand] public void GoToCustomer() => CurrentPage = new CustomersViewModel(this);
     [RelayCommand] public void GoHome() => CurrentPage = new HomeViewModel();

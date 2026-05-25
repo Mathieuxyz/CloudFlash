@@ -583,6 +583,31 @@ namespace SGS.Services
             await cmd.ExecuteNonQueryAsync();
         }
 
+        public async Task<List<SupplierOrder>> GetPendingSupplierOrdersAsync()
+        {
+            var list = new List<SupplierOrder>();
+            await EnsureConnectedAsync();
+            using var cmd    = new MySqlCommand(
+                "SELECT * FROM SupplierOrders WHERE Status = 'Pending';", _dbConnection);
+            using var reader = await cmd.ExecuteReaderAsync();
+            while (await reader.ReadAsync())
+                list.Add(ReadSupplierOrder(reader));
+            return list;
+        }
+
+        // Marks a supplier order as Received and adds its quantities to Parts.InStock
+        public async Task ReceiveSupplierOrderAsync(int supplierOrderId)
+        {
+            var details = await GetDetailsBySupplierOrderAsync(supplierOrderId);
+            foreach (var detail in details)
+            {
+                var part = await GetPartByCodeAsync(detail.PartCode);
+                if (part != null)
+                    await UpdateStockAsync(detail.PartCode, part.InStock + detail.Quantity);
+            }
+            await UpdateSupplierOrderStatusAsync(supplierOrderId, "Received");
+        }
+
         private static SupplierOrder ReadSupplierOrder(MySqlDataReader r) => new()
         {
             Id           = r.GetInt32("ID"),

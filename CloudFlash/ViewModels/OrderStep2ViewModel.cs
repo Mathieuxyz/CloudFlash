@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,13 +20,13 @@ public partial class OrderStep2ViewModel : ViewModelBase
     public bool HasMissingParts => Deposit > 0;
 
     [ObservableProperty] private string _customerEmail = "";[ObservableProperty] private string _customerPhone = "";
-    [ObservableProperty] private string _statusMessage = "Vérifiez le stock avant de confirmer.";
+    [ObservableProperty] private string _statusMessage = "Review your cart before confirming.";
 
     public OrderStep2ViewModel(MainWindowViewModel main) 
     { 
         _main = main; 
         
-        // Si le client est déjà connecté, on pré-remplit les champs
+        // If a customer is already selected, pre-fill the fields
         if (_main.CurrentCustomer != null)
         {
             CustomerEmail = _main.CurrentCustomer.Email ?? "";
@@ -44,12 +45,12 @@ public partial class OrderStep2ViewModel : ViewModelBase
         {
             int customerId;
 
-            // Si le client a créé un compte via l'onglet Customer, on utilise son ID
+            // If a customer was created via the Customer tab, use their ID
             if (_main.CurrentCustomer != null)
             {
                 customerId = _main.CurrentCustomer.Id;
             }
-            // Sinon, c'est un achat rapide, on le crée à la volée
+            // Otherwise create the customer on the fly (quick purchase)
             else
             {
                 customerId = await _main.Db.AddCustomerAsync(new Customer { Email = CustomerEmail, Phone = CustomerPhone });

@@ -12,7 +12,7 @@ public partial class OrderStep3ViewModel : ViewModelBase
 
     [ObservableProperty] private int _searchOrderId;
     [ObservableProperty] private Order? _currentOrder;
-    [ObservableProperty] private string _statusMessage = "Entrez un numéro de commande pour suivre son état.";
+    [ObservableProperty] private string _statusMessage = "Enter an order number to track its status.";
     [ObservableProperty] private bool _isOrderFound;
 
     public OrderStep3ViewModel(MainWindowViewModel main, int orderId = 0)
@@ -30,31 +30,31 @@ public partial class OrderStep3ViewModel : ViewModelBase
     {
         if (SearchOrderId <= 0)
         {
-            StatusMessage = "Veuillez entrer un ID de commande valide.";
+            StatusMessage = "Please enter a valid order ID.";
             IsOrderFound = false;
             return;
         }
 
-        StatusMessage = "Recherche de la commande...";
+        StatusMessage = "Looking up order...";
         try
         {
             var order = await _main.Db.GetOrderByIdAsync(SearchOrderId);
             if (order != null)
             {
                 CurrentOrder = order;
-                StatusMessage = $"Commande N°{order.Id} trouvée.";
+                StatusMessage = $"Order #{order.Id} found.";
                 IsOrderFound = true;
             }
             else
             {
                 CurrentOrder = null;
-                StatusMessage = "Commande introuvable.";
+                StatusMessage = "Order not found.";
                 IsOrderFound = false;
             }
         }
         catch (Exception ex)
         {
-            StatusMessage = $"Erreur : {ex.Message}";
+            StatusMessage = $"Error: {ex.Message}";
             IsOrderFound = false;
         }
     }
@@ -67,7 +67,7 @@ public partial class OrderStep3ViewModel : ViewModelBase
     [RelayCommand(CanExecute = nameof(CanMarkAsInvoiced))]
     public async Task MarkAsInvoicedAsync()
     {
-        StatusMessage = "Facturation en cours...";
+        StatusMessage = "Processing invoice...";
         try
         {
             await _main.Db.MarkOrderInvoicedAsync(CurrentOrder!.Id);
@@ -75,7 +75,7 @@ public partial class OrderStep3ViewModel : ViewModelBase
         }
         catch (Exception ex)
         {
-            StatusMessage = $"Erreur : {ex.Message}";
+            StatusMessage = $"Error: {ex.Message}";
         }
     }
 

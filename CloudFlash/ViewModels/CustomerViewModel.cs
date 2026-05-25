@@ -51,11 +51,11 @@ public partial class CustomersViewModel : ViewModelBase
             int id = await _main.Db.AddCustomerAsync(newCustomer);
             newCustomer.Id = id;
             
-            _main.CurrentCustomer = newCustomer; // Sélectionne le client pour la commande en cours
+            _main.CurrentCustomer = newCustomer; // Select the customer for the current order
             
             StatusMessage = $"Success! Customer #{id} created.";
             Email = ""; Phone = "";
-            await LoadCustomersAsync(); // Rafraîchit la liste
+            await LoadCustomersAsync(); // Refresh the list
         }
         catch (Exception ex) { StatusMessage = $"Error: {ex.Message}"; }
     }

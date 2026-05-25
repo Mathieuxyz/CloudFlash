@@ -59,6 +59,26 @@ public partial class OrderStep3ViewModel : ViewModelBase
         }
     }
 
+    public bool CanMarkAsInvoiced => IsOrderFound && CurrentOrder?.Status == "Pending";
+
+    partial void OnIsOrderFoundChanged(bool value)   => MarkAsInvoicedCommand.NotifyCanExecuteChanged();
+    partial void OnCurrentOrderChanged(Order? value) => MarkAsInvoicedCommand.NotifyCanExecuteChanged();
+
+    [RelayCommand(CanExecute = nameof(CanMarkAsInvoiced))]
+    public async Task MarkAsInvoicedAsync()
+    {
+        StatusMessage = "Facturation en cours...";
+        try
+        {
+            await _main.Db.MarkOrderInvoicedAsync(CurrentOrder!.Id);
+            await LoadOrderAsync();
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = $"Erreur : {ex.Message}";
+        }
+    }
+
     [RelayCommand]
     public void GoHome() => _main.GoHome();
 }

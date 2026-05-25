@@ -1,6 +1,6 @@
 # CloudFlash — Kitbox Order & Inventory Manager
 
-CloudFlash is an internal desktop application built for a Kitbox reseller. Kitbox sells modular locker cabinets that customers configure themselves — choosing the number of compartments, dimensions, colors, and whether each locker has doors. Because every cabinet is assembled from individual parts (panels, crossbars, battens, handles, angle irons…), placing an order means figuring out exactly which parts are needed and in what quantities.
+CloudFlash is an internal desktop application built for a Kitbox reseller. Kitbox sells modular locker cabinets that customers configure themselves, choosing the number of compartments, dimensions, colors, and whether each locker has doors. Because every cabinet is assembled from individual parts (panels, crossbars, battens, handles, angle irons…), placing an order means figuring out exactly which parts are needed and in what quantities.
 
 CloudFlash handles that entire process: a sales agent configures the cabinet interactively, the app resolves the full parts list automatically by querying the catalogue, the order is confirmed and stock is decremented, and if any part runs low the app triggers a supplier restocking order on its own. A separate stock management screen lets the team monitor inventory levels and manage supplier deliveries.
 

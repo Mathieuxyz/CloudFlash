@@ -22,6 +22,15 @@ public partial class OrderStep2ViewModel : ViewModelBase
     [ObservableProperty] private string _customerEmail = "";[ObservableProperty] private string _customerPhone = "";
     [ObservableProperty] private string _statusMessage = "Review your cart before confirming.";
 
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsCartVisible))]
+    private bool _isOrderConfirmed;
+
+    [ObservableProperty]
+    private string _confirmedOrderNumber = "";
+
+    public bool IsCartVisible => !IsOrderConfirmed;
+
     public OrderStep2ViewModel(MainWindowViewModel main) 
     { 
         _main = main; 
@@ -107,6 +116,8 @@ public partial class OrderStep2ViewModel : ViewModelBase
                 ? $" {supplierOrdersCreated} supplier order(s) auto-generated."
                 : " Stock is healthy, no restocking needed.";
             StatusMessage = $"Success! Order #{orderId} confirmed.{restockNote}";
+            ConfirmedOrderNumber = $"ORDER #{orderId}";
+            IsOrderConfirmed = true;
             _main.GlobalCart.Clear();
         }
         catch (Exception ex) { StatusMessage = $"Error: {ex.Message}"; }

@@ -159,3 +159,4 @@ C:\Users\franc\Downloads\InventorySoft\CloudFlash\obj\Debug\net9.0\CloudFlash.cs
 C:\Users\franc\Downloads\InventorySoft\CloudFlash\obj\Debug\net9.0\CloudFlash.genruntimeconfig.cache
 C:\Users\franc\Downloads\InventorySoft\CloudFlash\obj\Debug\net9.0\ref\CloudFlash.dll
 C:\Users\franc\Downloads\InventorySoft\CloudFlash\bin\Debug\net9.0\Assets\kitboxparts.csv
+C:\Users\Clovis Pc\Documents\informatique\C#\CloudFlash\CloudFlash\bin\Debug\net9.0\Assets\kitboxparts.csv

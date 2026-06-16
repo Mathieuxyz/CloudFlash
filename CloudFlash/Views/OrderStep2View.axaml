@@ -7,19 +7,26 @@
         <TextBlock Grid.Row="0" Text="CART &amp; STOCK CHECK" FontSize="24" FontWeight="Bold" Foreground="White" Margin="0,0,0,20"/>
         <ScrollViewer Grid.Row="1">
             <StackPanel>
-                <Border Background="#2C3E50" CornerRadius="5" Padding="15">
-                    <ItemsControl ItemsSource="{Binding Cart}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Grid ColumnDefinitions="30,80,*,100" Margin="0,5">
-                                    <TextBlock Grid.Column="0" Text="{Binding StatusIcon}" VerticalAlignment="Center"/>
-                                    <TextBlock Grid.Column="1" Text="{Binding QuantityNeeded, StringFormat=' {0}x'}" Foreground="White" FontWeight="Bold" VerticalAlignment="Center"/>
-                                    <TextBlock Grid.Column="2" Text="{Binding PartInfo.Code}" Foreground="#AED6F1" VerticalAlignment="Center"/>
-                                    <TextBlock Grid.Column="3" Text="{Binding PartInfo.InStock, StringFormat='Stock: {0}'}" Foreground="Gray" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-                                </Grid>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Border Background="#2C3E50" CornerRadius="5" Padding="15" MinHeight="100">
+                    <Panel>
+                        <ItemsControl ItemsSource="{Binding Cart}" IsVisible="{Binding IsCartVisible}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid ColumnDefinitions="30,80,*,100" Margin="0,5">
+                                        <TextBlock Grid.Column="0" Text="{Binding StatusIcon}" VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Column="1" Text="{Binding QuantityNeeded, StringFormat=' {0}x'}" Foreground="White" FontWeight="Bold" VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Column="2" Text="{Binding PartInfo.Code}" Foreground="#AED6F1" VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Column="3" Text="{Binding PartInfo.InStock, StringFormat='Stock: {0}'}" Foreground="Gray" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        
+                        <StackPanel IsVisible="{Binding IsOrderConfirmed}" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <TextBlock Text="Order Confirmed!" FontSize="24" FontWeight="Bold" Foreground="#27AE60" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                            <TextBlock Text="{Binding ConfirmedOrderNumber}" FontSize="32" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </Panel>
                 </Border>
                 <Border Background="#1A252F" CornerRadius="5" Padding="20" Margin="0,20,0,0">
                     <StackPanel>
